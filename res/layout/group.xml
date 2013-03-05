@@ -5,8 +5,10 @@
 
     <TextView
         android:id="@+id/group_name"
+        style="@android:style/TextAppearance.Medium"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_margin="5dip"
         android:singleLine="true" />
 
 </LinearLayout>

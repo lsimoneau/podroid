@@ -5,6 +5,7 @@
     <string name="menu_settings">Settings</string>
     <string name="no_groups">No groups.</string>
     <string name="no_conversations">No conversations.</string>
+    <string name="no_group_members">No members.</string>
     <string name="no_posts">No posts.</string>
     <string name="authentication_email">Email</string>
     <string name="authentication_password">Password</string>

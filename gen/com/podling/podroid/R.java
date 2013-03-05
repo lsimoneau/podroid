@@ -17,14 +17,17 @@ public final class R {
         public static final int authentication_email=0x7f070002;
         public static final int authentication_password=0x7f070005;
         public static final int btnLogin=0x7f070007;
-        public static final int conversation_post=0x7f07000a;
+        public static final int conversation_content=0x7f07000a;
         public static final int conversation_poster=0x7f070009;
-        public static final int conversation_user_avatar=0x7f070008;
+        public static final int conversation_poster_avatar=0x7f070008;
+        public static final int group_member_avatar=0x7f07000c;
+        public static final int group_member_name=0x7f07000d;
+        public static final int group_member_profile=0x7f07000e;
         public static final int group_name=0x7f07000b;
-        public static final int menu_settings=0x7f07000f;
-        public static final int post_content=0x7f07000e;
-        public static final int post_poster=0x7f07000d;
-        public static final int post_user_avatar=0x7f07000c;
+        public static final int menu_settings=0x7f070012;
+        public static final int post_content=0x7f070011;
+        public static final int post_poster=0x7f070010;
+        public static final int post_user_avatar=0x7f07000f;
         public static final int tableRow1=0x7f070000;
         public static final int tableRow2=0x7f070003;
         public static final int tableRow3=0x7f070006;
@@ -35,24 +38,27 @@ public final class R {
         public static final int activity_main=0x7f030000;
         public static final int authentication=0x7f030001;
         public static final int conversation=0x7f030002;
-        public static final int conversation_list=0x7f030003;
-        public static final int groups=0x7f030004;
-        public static final int list_item_group=0x7f030005;
-        public static final int post=0x7f030006;
-        public static final int post_list=0x7f030007;
+        public static final int conversations=0x7f030003;
+        public static final int group=0x7f030004;
+        public static final int group_member=0x7f030005;
+        public static final int group_members=0x7f030006;
+        public static final int groups=0x7f030007;
+        public static final int post=0x7f030008;
+        public static final int post_list=0x7f030009;
     }
     public static final class menu {
         public static final int activity_main=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int authentication_email=0x7f040005;
-        public static final int authentication_login=0x7f040007;
-        public static final int authentication_password=0x7f040006;
+        public static final int authentication_email=0x7f040006;
+        public static final int authentication_login=0x7f040008;
+        public static final int authentication_password=0x7f040007;
         public static final int menu_settings=0x7f040001;
         public static final int no_conversations=0x7f040003;
+        public static final int no_group_members=0x7f040004;
         public static final int no_groups=0x7f040002;
-        public static final int no_posts=0x7f040004;
+        public static final int no_posts=0x7f040005;
     }
     public static final class style {
         /** 

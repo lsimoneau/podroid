@@ -2,8 +2,6 @@ package com.podling.podroid.adapter;
 
 import java.util.List;
 
-import org.the86.model.Conversation;
-import org.the86.model.Post;
 import org.the86.model.User;
 
 import android.app.Activity;
@@ -18,12 +16,12 @@ import android.widget.TextView;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.R;
 
-public class ConversationAdapter extends ArrayAdapter<Conversation> {
+public class GroupMembershipAdapter extends ArrayAdapter<User> {
+
 	private final Activity context;
 
-	public ConversationAdapter(Activity context,
-			List<Conversation> conversations) {
-		super(context, R.layout.conversation, conversations);
+	public GroupMembershipAdapter(Activity context, List<User> memberships) {
+		super(context, R.layout.group_member, memberships);
 		this.context = context;
 	}
 
@@ -31,25 +29,23 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.conversation, null);
+		View view = inflater.inflate(R.layout.group_member, null);
 
-		Conversation conversation = getItem(position);
-		Post post = conversation.getPosts().get(0);
-		User user = post.getUser();
+		User user = getItem(position);
 
-		TextView tPoster = (TextView) view
-				.findViewById(R.id.conversation_poster);
-		tPoster.setText(user.getName());
+		TextView name = (TextView) view.findViewById(R.id.group_member_name);
+		name.setText(user.getName());
 
-		TextView tPost = (TextView) view
-				.findViewById(R.id.conversation_content);
-		tPost.setText(post.getContent());
+		TextView profile = (TextView) view
+				.findViewById(R.id.group_member_profile);
+		profile.setText(user.getProfile());
 
 		ImageView avatar_image = (ImageView) view
-				.findViewById(R.id.conversation_poster_avatar);
+				.findViewById(R.id.group_member_avatar);
 		if (user.getAvatarUrl() != null) {
 			new DownloadImageTask(avatar_image).execute(user.getAvatarUrl());
 		}
 		return view;
 	}
+
 }

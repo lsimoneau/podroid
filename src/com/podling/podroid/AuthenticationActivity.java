@@ -5,6 +5,7 @@ import org.the86.The86Impl;
 import org.the86.exception.The86Exception;
 import org.the86.model.Authorization;
 
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,6 +26,7 @@ public class AuthenticationActivity extends Activity {
 		setContentView(R.layout.authentication);
 		email = ((EditText) findViewById(R.id.authentication_email));
 		password = ((EditText) findViewById(R.id.authentication_password));
+
 
 		Button button = (Button) findViewById(R.id.btnLogin);
 
@@ -69,7 +71,7 @@ public class AuthenticationActivity extends Activity {
 			dialog.dismiss();
 			if (authorization != null) {
 				// success!
-				startActivity(GroupsActivity.newInstance(context));
+//				startActivity(GroupsActivity.newInstance(context));
 				AuthenticationActivity.this.finish();
 			} else {
 				Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT)
