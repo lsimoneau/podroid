@@ -39,13 +39,21 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 		Post post = conversation.getPosts().get(0);
 		User user = post.getUser();
 
-		TextView tPoster = (TextView) view
+		TextView poster = (TextView) view
 				.findViewById(R.id.conversation_poster);
-		tPoster.setText(user.getName());
+		poster.setText(user.getName());
 
-		TextView tPost = (TextView) view
+		TextView content = (TextView) view
 				.findViewById(R.id.conversation_content);
-		tPost.setText(Html.fromHtml(post.getContentHtml()));
+		content.setText(Html.fromHtml(post.getContentHtml()));
+
+		TextView group_name = (TextView) view
+				.findViewById(R.id.conversation_group_name);
+		if (conversation.getGroup() != null) {
+			group_name.setText(conversation.getGroup().getName());
+		} else {
+			group_name.setVisibility(View.GONE);
+		}
 
 		TextView replies = (TextView) view
 				.findViewById(R.id.conversation_replies);
