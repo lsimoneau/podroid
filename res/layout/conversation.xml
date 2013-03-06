@@ -32,6 +32,11 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/conversation_bumped_at"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/conversation_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />

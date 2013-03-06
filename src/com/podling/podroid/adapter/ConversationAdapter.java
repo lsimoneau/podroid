@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.kevinsawicki.timeago.TimeAgo;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
@@ -54,6 +55,10 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 		} else {
 			group_name.setVisibility(View.GONE);
 		}
+
+		TextView created = (TextView) view
+				.findViewById(R.id.conversation_bumped_at);
+		created.setText(new TimeAgo().timeAgo(conversation.getBumpedAt()));
 
 		TextView replies = (TextView) view
 				.findViewById(R.id.conversation_replies);
