@@ -1,38 +1,73 @@
 package com.podling.podroid.adapter;
 
+import java.util.List;
+
+import org.the86.model.Post;
+import org.the86.model.User;
+
+import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
+import android.text.Html;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.podling.podroid.DownloadImageTask;
+import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 
-public class PostsAdapter extends CursorAdapter {
-	// private static final int CURSOR_INDEX_GROUP_NAME = 1;
+public class PostsAdapter extends ArrayAdapter<Post> {
+	private final Activity context;
+	private static final int LAYOUT = R.layout.post;
 
-	public PostsAdapter(Context context, Cursor c) {
-		super(context, c);
+	public PostsAdapter(Activity context, List<Post> posts) {
+		super(context, LAYOUT, posts);
+		this.context = context;
 	}
 
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		String name = cursor.getString(1);
-		TextView tPoster = (TextView) view.findViewById(R.id.post_poster);
-		tPoster.setText(name);
-
-		String post = cursor.getString(2);
-		TextView tPost = (TextView) view.findViewById(R.id.post_content);
-		tPost.setText(post);
-	}
-
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.post, null);
+		View view = inflater.inflate(LAYOUT, null);
+
+		Post post = getItem(position);
+		User user = post.getUser();
+
+		TextView name = (TextView) view.findViewById(R.id.post_user_name);
+		name.setText(post.getUser().getName());
+
+		TextView content = (TextView) view.findViewById(R.id.post_content);
+		content.setText(Html.fromHtml(post.getContentHtml()));
+
+		TextView likes = (TextView) view.findViewById(R.id.post_likes);
+		likes.setText(likeCount(post));
+
+		ImageView avatar_image = (ImageView) view
+				.findViewById(R.id.post_user_avatar);
+		if (user.getAvatarUrl() != null) {
+			new DownloadImageTask(
+					(PodroidApplication) context.getApplication(), avatar_image)
+					.execute(user.getAvatarUrl());
+		}
+
+		return view;
 	}
 
+	// TODO extract
+	private String likeCount(Post post) {
+		int count = post.getLikes().size();
+		switch (count) {
+		case 0:
+			return "";
+		case 1:
+			return "1 like";
+		default:
+			return String.format("%d likes", count);
+		}
+	}
 }

@@ -10,7 +10,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -30,15 +29,7 @@ public class PostsActivity extends ListActivity {
 	}
 
 	private void populate(List<Post> posts) {
-		String[] cols = { "_id", "poster", "post", "avatar_url" };
-		MatrixCursor cursor = new MatrixCursor(cols);
-
-		for (Post p : posts) {
-			cursor.addRow(new String[] { p.getId(), p.getUser().getName(),
-					p.getContent(), p.getUser().getAvatarUrl() });
-		}
-
-		setListAdapter(new PostsAdapter(this, cursor));
+		setListAdapter(new PostsAdapter(this, posts));
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +41,13 @@ public class PostsActivity extends ListActivity {
 		conversationId = extras.getString("conversationId");
 		new RetrievePostsTask(this).execute();
 
-		setContentView(R.layout.post_list);
+		setContentView(R.layout.posts);
 	}
 
 	class RetrievePostsTask extends AsyncTask<Void, Void, List<Post>> {
 		protected ProgressDialog dialog;
 
 		public RetrievePostsTask(Context context) {
-			// create a progress dialog
 			dialog = new ProgressDialog(context);
 			dialog.setMessage("loading posts");
 			dialog.setCancelable(false);

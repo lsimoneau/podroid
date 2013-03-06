@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.podling.podroid.DownloadImageTask;
+import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 
 public class GroupMembershipAdapter extends ArrayAdapter<User> {
@@ -43,7 +44,7 @@ public class GroupMembershipAdapter extends ArrayAdapter<User> {
 		ImageView avatar_image = (ImageView) view
 				.findViewById(R.id.group_member_avatar);
 		if (user.getAvatarUrl() != null) {
-			new DownloadImageTask(avatar_image).execute(user.getAvatarUrl());
+			new DownloadImageTask((PodroidApplication) context.getApplication(), avatar_image).execute(user.getAvatarUrl());
 		}
 		return view;
 	}

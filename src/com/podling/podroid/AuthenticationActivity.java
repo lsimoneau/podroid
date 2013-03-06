@@ -27,7 +27,6 @@ public class AuthenticationActivity extends Activity {
 		email = ((EditText) findViewById(R.id.authentication_email));
 		password = ((EditText) findViewById(R.id.authentication_password));
 
-
 		Button button = (Button) findViewById(R.id.btnLogin);
 
 		button.setOnClickListener(new View.OnClickListener() {

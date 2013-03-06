@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.podling.podroid.PostsActivity;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
 
@@ -24,12 +26,13 @@ public class GroupConversationsFragment extends GroupFragment {
 		new RetrieveConversationsTask(getActivity()).execute();
 	}
 
-	// public void onListItemClick(ListView l, View v, int position, long id) {
-	// super.onListItemClick(l, v, position, id);
-	// Group group = (Group) getListAdapter().getItem(position);
-	// startActivity(GroupConversationsActivity.newInstance(getActivity(),
-	// group));
-	// }
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Conversation conversation = (Conversation) getListAdapter().getItem(
+				position);
+		startActivity(PostsActivity.newInstance(getActivity(), groupSlug,
+				conversation.getId()));
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +42,7 @@ public class GroupConversationsFragment extends GroupFragment {
 	}
 
 	private void populate(List<Conversation> conversations) {
-		setListAdapter(new ConversationAdapter(getActivity(),
-				conversations));
+		setListAdapter(new ConversationAdapter(getActivity(), conversations));
 	}
 
 	class RetrieveConversationsTask extends
