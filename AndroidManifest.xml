@@ -26,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.podling.podroid.AuthenticationActivity" >
+        </activity>
         <activity android:name="com.podling.podroid.group.GroupActivity" >
         </activity>
         <activity android:name="com.podling.podroid.PostsActivity" >

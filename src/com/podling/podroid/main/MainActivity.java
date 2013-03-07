@@ -2,16 +2,21 @@ package com.podling.podroid.main;
 
 import java.io.File;
 
+import org.the86.The86;
+import org.the86.The86Impl;
+
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
+import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.TabListener;
 
@@ -19,6 +24,9 @@ public class MainActivity extends Activity {
 
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 5; // 10MB
 	private static final String DISK_CACHE_SUBDIR = "thumbnails";
+	private ActionBar actionBar;
+	private boolean tabsSetup = false;
+	private The86 the86;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +37,40 @@ public class MainActivity extends Activity {
 				DISK_CACHE_SUBDIR);
 		new InitDiskCacheTask().execute(cacheDir);
 
-		ActionBar actionBar = getActionBar();
+		actionBar = getActionBar();
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(false);
+
+		SharedPreferences prefs = getSharedPreferences("com.podling.podroid",
+				Context.MODE_PRIVATE);
+		String userId = prefs.getString("userId", null);
+		String userAuthToken = prefs.getString("userAuthToken", null);
+
+		if (userId == null || userAuthToken == null) {
+			startActivity(AuthenticationActivity.newInstance(this));
+		} else {
+			the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
+
+			the86.setAuthorization(userId, userAuthToken);
+			((PodroidApplication) getApplicationContext()).setThe86(the86);
+			createTabs();
+		}
+	}
+
+	protected void onResume() {
+		super.onResume();
+
+		Log.d("MA", "resume");
+		the86 = ((PodroidApplication) getApplicationContext()).getThe86();
+
+		if (!tabsSetup && the86 != null) {
+			createTabs();
+		}
+	}
+
+	public void createTabs() {
 
 		Tab tab = actionBar
 				.newTab()
@@ -50,6 +87,8 @@ public class MainActivity extends Activity {
 						new TabListener<GroupsFragment>(this, "groups",
 								GroupsFragment.class));
 		actionBar.addTab(tab);
+
+		tabsSetup = true;
 	}
 
 	class InitDiskCacheTask extends AsyncTask<File, Void, Void> {

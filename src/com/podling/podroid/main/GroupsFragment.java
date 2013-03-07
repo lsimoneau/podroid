@@ -3,7 +3,6 @@ package com.podling.podroid.main;
 import java.util.List;
 
 import org.the86.The86;
-import org.the86.The86Impl;
 import org.the86.exception.The86Exception;
 import org.the86.model.Group;
 
@@ -23,14 +22,15 @@ import com.podling.podroid.adapter.GroupAdapter;
 import com.podling.podroid.group.GroupActivity;
 
 public class GroupsFragment extends ListFragment {
-	// private The86 the86;
+	private The86 the86;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		the86 = ((PodroidApplication) getActivity().getApplicationContext())
+				.getThe86();
 		new RetrieveGroupsTask(getActivity()).execute();
-		// the86 = ((PodroidApplication)
-		// getActivity().getApplicationContext()).getThe86();
 	}
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -67,8 +67,6 @@ public class GroupsFragment extends ListFragment {
 
 		protected List<Group> doInBackground(Void... params) {
 			try {
-				((PodroidApplication) getActivity().getApplicationContext())
-						.setThe86(the86);
 				return the86.getGroups();
 			} catch (The86Exception e) {
 				// TODO Auto-generated catch block

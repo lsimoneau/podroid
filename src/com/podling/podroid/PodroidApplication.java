@@ -7,6 +7,8 @@ import android.app.Application;
 
 public class PodroidApplication extends Application {
 
+	public static final String THE86_HOSTNAME = "https://podling.com";
+
 	private The86 the86;
 	private BitmapLruCache diskLruCache = null;
 	private boolean diskCacheStarting = true;
@@ -21,7 +23,7 @@ public class PodroidApplication extends Application {
 	}
 
 	// TODO wrap disk stuff in interface, pass to tasks
-	
+
 	public Object getDiskCacheLock() {
 		return diskCacheLock;
 	}

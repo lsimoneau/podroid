@@ -3,7 +3,6 @@ package com.podling.podroid.main;
 import java.util.List;
 
 import org.the86.The86;
-import org.the86.The86Impl;
 import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
 
@@ -23,10 +22,14 @@ import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
 
 public class LatestConversationsFragment extends ListFragment {
+	private The86 the86;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		the86 = ((PodroidApplication) getActivity().getApplicationContext())
+				.getThe86();
 		new RetrieveLatestConversationsTask(getActivity()).execute();
 	}
 
@@ -67,8 +70,6 @@ public class LatestConversationsFragment extends ListFragment {
 
 		protected List<Conversation> doInBackground(Void... params) {
 			try {
-				((PodroidApplication) getActivity().getApplicationContext())
-						.setThe86(the86);
 				return the86.getUserConversations();
 			} catch (The86Exception e) {
 				// TODO Auto-generated catch block

@@ -4,11 +4,13 @@ import org.the86.The86;
 import org.the86.The86Impl;
 import org.the86.exception.The86Exception;
 import org.the86.model.Authorization;
-
+import org.the86.model.User;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -17,15 +19,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class AuthenticationActivity extends Activity {
-	private EditText email;
-	private EditText password;
+	private EditText emailEdit;
+	private EditText passwordEdit;
+	private The86 the86;
+
+	public static Intent newInstance(Context context) {
+		Intent intent = new Intent(context, AuthenticationActivity.class);
+		return intent;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.authentication);
-		email = ((EditText) findViewById(R.id.authentication_email));
-		password = ((EditText) findViewById(R.id.authentication_password));
+
+		the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
+
+		emailEdit = ((EditText) findViewById(R.id.authentication_email));
+		passwordEdit = ((EditText) findViewById(R.id.authentication_password));
 
 		Button button = (Button) findViewById(R.id.btnLogin);
 
@@ -34,6 +45,20 @@ public class AuthenticationActivity extends Activity {
 				new AuthenticateTask(v.getContext()).execute();
 			}
 		});
+	}
+
+	private void authSuccess(Authorization authorization) {
+		User user = authorization.getUser();
+
+		SharedPreferences prefs = getSharedPreferences("com.podling.podroid",
+				Context.MODE_PRIVATE);
+		prefs.edit().putString("userId", user.getId()).commit();
+		prefs.edit()
+				.putString("userAuthToken", authorization.getUserAccessToken())
+				.commit();
+
+		((PodroidApplication) getApplicationContext()).setThe86(the86);
+		finish();
 	}
 
 	class AuthenticateTask extends AsyncTask<Void, Void, Authorization> {
@@ -55,12 +80,10 @@ public class AuthenticationActivity extends Activity {
 
 		protected Authorization doInBackground(Void... params) {
 			try {
-				The86 the86 = new The86Impl("https://podling.com", email
-						.getText().toString(), password.getText().toString());
+				String email = emailEdit.getText().toString();
+				String password = passwordEdit.getText().toString();
 
-				((PodroidApplication) getApplicationContext()).setThe86(the86);
-
-				return the86.getAuthorization();
+				return the86.authorize(email, password);
 			} catch (The86Exception e) {
 				return null;
 			}
@@ -70,8 +93,7 @@ public class AuthenticationActivity extends Activity {
 			dialog.dismiss();
 			if (authorization != null) {
 				// success!
-//				startActivity(GroupsActivity.newInstance(context));
-				AuthenticationActivity.this.finish();
+				authSuccess(authorization);
 			} else {
 				Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT)
 						.show();
