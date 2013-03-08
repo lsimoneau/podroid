@@ -44,6 +44,7 @@ public class AuthenticationActivity extends Activity {
 
 		Button button = (Button) findViewById(R.id.btnLogin);
 
+		Button button = (Button) findViewById(R.id.btnLogin);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				new AuthenticateTask(v.getContext()).execute();

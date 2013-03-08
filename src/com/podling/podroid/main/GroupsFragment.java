@@ -10,11 +10,15 @@ import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.podling.podroid.CreateGroupActivity;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.GroupAdapter;
@@ -30,6 +34,7 @@ public class GroupsFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fetched = false;
+		setHasOptionsMenu(true);
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
 	}
@@ -48,6 +53,17 @@ public class GroupsFragment extends ListFragment {
 		if (!fetched) {
 			new RetrieveGroupsTask().execute();
 		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.group_list_menu, menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		startActivity(CreateGroupActivity.newInstance(getActivity()));
+		return true;
 	}
 
 	@Override

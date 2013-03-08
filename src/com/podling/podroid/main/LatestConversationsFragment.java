@@ -10,6 +10,8 @@ import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ public class LatestConversationsFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fetched = false;
+		setHasOptionsMenu(true);
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
 	}
@@ -40,6 +43,11 @@ public class LatestConversationsFragment extends ListFragment {
 		progress = (LinearLayout) v
 				.findViewById(R.id.conversation_loading_progress);
 		return v;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.coonversations_menu, menu);
 	}
 
 	@Override

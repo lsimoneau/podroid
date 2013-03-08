@@ -40,10 +40,7 @@ public class MainActivity extends Activity {
 		setupDiskCache();
 
 		actionBar = getActionBar();
-
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
 
 		SharedPreferences prefs = getSharedPreferences("com.podling.podroid",
 				Context.MODE_PRIVATE);

@@ -47,7 +47,10 @@
             android:hint="@string/authentication_email_hint"
             android:inputType="textEmailAddress"
             android:padding="10dip"
-            android:singleLine="true" />
+            android:singleLine="true" >
+
+            <requestFocus />
+        </EditText>
 
         <EditText
             android:id="@+id/authentication_password"

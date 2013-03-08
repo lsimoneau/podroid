@@ -32,6 +32,8 @@
         </activity>
         <activity android:name="com.podling.podroid.PostsActivity" >
         </activity>
+        <activity android:name="com.podling.podroid.CreateGroupActivity" >
+        </activity>
     </application>
 
 </manifest>
