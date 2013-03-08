@@ -37,9 +37,8 @@ public final class R {
         public static final int groups_loading_progress=0x7f070015;
         public static final int groups_loading_progress_bar=0x7f070016;
         public static final int header=0x7f070000;
-        public static final int menu_new=0x7f07001c;
-        public static final int menu_save=0x7f07001d;
-        public static final int menu_settings=0x7f07001b;
+        public static final int menu_create_group=0x7f07001c;
+        public static final int menu_new=0x7f07001b;
         public static final int podling_logo=0x7f070001;
         public static final int post_content=0x7f070019;
         public static final int post_likes=0x7f07001a;
@@ -60,9 +59,8 @@ public final class R {
         public static final int posts=0x7f03000a;
     }
     public static final class menu {
-        public static final int activity_main=0x7f060000;
-        public static final int coonversations_menu=0x7f060001;
-        public static final int group_list_menu=0x7f060002;
+        public static final int conversations_menu=0x7f060000;
+        public static final int group_list_menu=0x7f060001;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

@@ -40,6 +40,7 @@ public class LatestConversationsFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.conversations, container, false);
+		
 		progress = (LinearLayout) v
 				.findViewById(R.id.conversation_loading_progress);
 		return v;
@@ -47,7 +48,7 @@ public class LatestConversationsFragment extends ListFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.coonversations_menu, menu);
+		inflater.inflate(R.menu.conversations_menu, menu);
 	}
 
 	@Override

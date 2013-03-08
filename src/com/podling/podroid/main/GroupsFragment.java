@@ -62,7 +62,9 @@ public class GroupsFragment extends ListFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		startActivity(CreateGroupActivity.newInstance(getActivity()));
+		if (item.getItemId() == R.id.menu_create_group) {
+			startActivity(CreateGroupActivity.newInstance(getActivity()));
+		}
 		return true;
 	}
 
