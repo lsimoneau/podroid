@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.podling.podroid.main.MainActivity;
+
 public class AuthenticationActivity extends Activity {
 	private EditText emailEdit;
 	private EditText passwordEdit;
@@ -32,6 +34,8 @@ public class AuthenticationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.authentication);
+
+		getActionBar().hide();
 
 		the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
 
@@ -58,6 +62,8 @@ public class AuthenticationActivity extends Activity {
 				.commit();
 
 		((PodroidApplication) getApplicationContext()).setThe86(the86);
+
+		startActivity(MainActivity.newInstance(this));
 		finish();
 	}
 
@@ -69,7 +75,7 @@ public class AuthenticationActivity extends Activity {
 			this.context = context;
 			// create a progress dialog
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("logging in");
+			dialog.setMessage("signing in");
 			dialog.setCancelable(false);
 		}
 

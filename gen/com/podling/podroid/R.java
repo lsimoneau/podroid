@@ -12,34 +12,33 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int logo=0x7f020001;
     }
     public static final class id {
-        public static final int authentication_email=0x7f070002;
-        public static final int authentication_password=0x7f070005;
-        public static final int btnLogin=0x7f070007;
-        public static final int conversation_bumped_at=0x7f07000b;
-        public static final int conversation_content=0x7f07000c;
-        public static final int conversation_group_name=0x7f07000a;
-        public static final int conversation_likes=0x7f07000e;
-        public static final int conversation_loading_progress=0x7f07000f;
-        public static final int conversation_poster=0x7f070009;
-        public static final int conversation_poster_avatar=0x7f070008;
-        public static final int conversation_replies=0x7f07000d;
-        public static final int group_member_avatar=0x7f070012;
-        public static final int group_member_name=0x7f070013;
-        public static final int group_member_profile=0x7f070014;
-        public static final int group_name=0x7f070011;
-        public static final int menu_settings=0x7f070019;
-        public static final int onversation_loading_progress_bar=0x7f070010;
-        public static final int post_content=0x7f070017;
-        public static final int post_likes=0x7f070018;
-        public static final int post_user_avatar=0x7f070015;
-        public static final int post_user_name=0x7f070016;
-        public static final int tableRow1=0x7f070000;
-        public static final int tableRow2=0x7f070003;
-        public static final int tableRow3=0x7f070006;
-        public static final int textView1=0x7f070001;
-        public static final int textView2=0x7f070004;
+        public static final int authentication_email=0x7f070003;
+        public static final int authentication_password=0x7f070004;
+        public static final int btnLogin=0x7f070005;
+        public static final int conversation_bumped_at=0x7f070009;
+        public static final int conversation_content=0x7f07000a;
+        public static final int conversation_group_name=0x7f070008;
+        public static final int conversation_likes=0x7f07000c;
+        public static final int conversation_loading_progress=0x7f07000d;
+        public static final int conversation_poster=0x7f070007;
+        public static final int conversation_poster_avatar=0x7f070006;
+        public static final int conversation_replies=0x7f07000b;
+        public static final int group_member_avatar=0x7f070010;
+        public static final int group_member_name=0x7f070011;
+        public static final int group_member_profile=0x7f070012;
+        public static final int group_name=0x7f07000f;
+        public static final int header=0x7f070000;
+        public static final int linearLayout1=0x7f070002;
+        public static final int menu_settings=0x7f070017;
+        public static final int onversation_loading_progress_bar=0x7f07000e;
+        public static final int podling_logo=0x7f070001;
+        public static final int post_content=0x7f070015;
+        public static final int post_likes=0x7f070016;
+        public static final int post_user_avatar=0x7f070013;
+        public static final int post_user_name=0x7f070014;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -58,14 +57,16 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int authentication_email=0x7f040006;
-        public static final int authentication_login=0x7f040008;
-        public static final int authentication_password=0x7f040007;
+        public static final int authentication_email_hint=0x7f040007;
+        public static final int authentication_login=0x7f040006;
+        public static final int authentication_password_hint=0x7f040008;
+        public static final int logo_description=0x7f040009;
         public static final int menu_settings=0x7f040001;
         public static final int no_conversations=0x7f040003;
         public static final int no_group_members=0x7f040004;
         public static final int no_groups=0x7f040002;
         public static final int no_posts=0x7f040005;
+        public static final int tagline=0x7f04000a;
     }
     public static final class style {
         /** 

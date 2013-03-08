@@ -7,8 +7,10 @@
     <string name="no_conversations">No conversations.</string>
     <string name="no_group_members">No members.</string>
     <string name="no_posts">No posts.</string>
-    <string name="authentication_email">Email</string>
-    <string name="authentication_password">Password</string>
-    <string name="authentication_login">Login</string>
+    <string name="authentication_login">Sign in</string>
+    <string name="authentication_email_hint">Email address</string>
+    <string name="authentication_password_hint">Password</string>
+    <string name="logo_description">podling logo</string>
+    <string name="tagline">social glue for teams</string>
 
 </resources>

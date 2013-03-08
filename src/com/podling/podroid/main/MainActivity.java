@@ -10,6 +10,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,11 @@ public class MainActivity extends Activity {
 	private ActionBar actionBar;
 	private boolean tabsSetup = false;
 	private The86 the86;
+
+	public static Intent newInstance(Context context) {
+		Intent intent = new Intent(context, MainActivity.class);
+		return intent;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class MainActivity extends Activity {
 
 		if (userId == null || userAuthToken == null) {
 			startActivity(AuthenticationActivity.newInstance(this));
+			finish();
 		} else {
 			the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
 
