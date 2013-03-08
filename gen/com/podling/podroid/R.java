@@ -15,6 +15,7 @@ public final class R {
         public static final int logo=0x7f020001;
     }
     public static final class id {
+        public static final int authentication_details=0x7f070002;
         public static final int authentication_email=0x7f070003;
         public static final int authentication_password=0x7f070004;
         public static final int btnLogin=0x7f070005;
@@ -31,7 +32,6 @@ public final class R {
         public static final int group_member_profile=0x7f070012;
         public static final int group_name=0x7f07000f;
         public static final int header=0x7f070000;
-        public static final int linearLayout1=0x7f070002;
         public static final int menu_settings=0x7f070017;
         public static final int onversation_loading_progress_bar=0x7f07000e;
         public static final int podling_logo=0x7f070001;

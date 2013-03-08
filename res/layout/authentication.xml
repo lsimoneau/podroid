@@ -2,17 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222224"
-    android:theme="@android:style/Theme.Holo.NoActionBar" >
+    android:background="#222224" >
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dip"
+        android:layout_marginTop="20dip"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="20dip"
         android:paddingBottom="5dip"
         android:paddingTop="5dip" >
 
@@ -32,7 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/authentication_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
@@ -66,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayout1"
+        android:layout_below="@+id/authentication_details"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:background="#2B97F0"

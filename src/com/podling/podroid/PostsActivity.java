@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.the86.The86;
 import org.the86.exception.The86Exception;
+import org.the86.model.Conversation;
 import org.the86.model.Post;
 
 import android.app.ListActivity;
@@ -20,11 +21,10 @@ public class PostsActivity extends ListActivity {
 	private String conversationId;
 	private The86 the86;
 
-	public static Intent newInstance(Context context, String groupSlug,
-			String conversationId) {
+	public static Intent newInstance(Context context, Conversation conversation) {
 		Intent intent = new Intent(context, PostsActivity.class);
-		intent.putExtra("groupSlug", groupSlug);
-		intent.putExtra("conversationId", conversationId);
+		intent.putExtra("groupSlug", conversation.getGroup().getSlug());
+		intent.putExtra("conversationId", conversation.getId());
 		return intent;
 	}
 

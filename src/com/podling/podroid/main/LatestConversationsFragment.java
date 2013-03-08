@@ -23,11 +23,12 @@ import com.podling.podroid.adapter.ConversationAdapter;
 public class LatestConversationsFragment extends ListFragment {
 	private The86 the86;
 	protected LinearLayout progress;
+	private boolean fetched;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		fetched = false;
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
 	}
@@ -42,17 +43,20 @@ public class LatestConversationsFragment extends ListFragment {
 		return v;
 	}
 
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		new RetrieveLatestConversationsTask().execute();
+		if (!fetched) {
+			new RetrieveLatestConversationsTask().execute();
+		}
 	}
 
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Conversation conversation = (Conversation) getListAdapter().getItem(
 				position);
-		startActivity(PostsActivity.newInstance(getActivity(), conversation
-				.getGroup().getSlug(), conversation.getId()));
+		startActivity(PostsActivity.newInstance(getActivity(), conversation));
 	}
 
 	private void populate(List<Conversation> conversations) {
@@ -80,6 +84,7 @@ public class LatestConversationsFragment extends ListFragment {
 		protected void onPostExecute(List<Conversation> conversations) {
 			populate(conversations);
 			progress.setVisibility(View.GONE);
+			fetched = true;
 		}
 	}
 }
