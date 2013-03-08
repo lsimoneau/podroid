@@ -24,6 +24,7 @@ public final class R {
         public static final int conversation_group_name=0x7f070008;
         public static final int conversation_likes=0x7f07000c;
         public static final int conversation_loading_progress=0x7f07000d;
+        public static final int conversation_loading_progress_bar=0x7f07000e;
         public static final int conversation_poster=0x7f070007;
         public static final int conversation_poster_avatar=0x7f070006;
         public static final int conversation_replies=0x7f07000b;
@@ -31,14 +32,15 @@ public final class R {
         public static final int group_member_name=0x7f070011;
         public static final int group_member_profile=0x7f070012;
         public static final int group_name=0x7f07000f;
+        public static final int groups_loading_progress=0x7f070013;
+        public static final int groups_loading_progress_bar=0x7f070014;
         public static final int header=0x7f070000;
-        public static final int menu_settings=0x7f070017;
-        public static final int onversation_loading_progress_bar=0x7f07000e;
+        public static final int menu_settings=0x7f070019;
         public static final int podling_logo=0x7f070001;
-        public static final int post_content=0x7f070015;
-        public static final int post_likes=0x7f070016;
-        public static final int post_user_avatar=0x7f070013;
-        public static final int post_user_name=0x7f070014;
+        public static final int post_content=0x7f070017;
+        public static final int post_likes=0x7f070018;
+        public static final int post_user_avatar=0x7f070015;
+        public static final int post_user_name=0x7f070016;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

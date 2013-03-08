@@ -37,7 +37,6 @@ public class LatestConversationsFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.conversations, container, false);
-
 		progress = (LinearLayout) v
 				.findViewById(R.id.conversation_loading_progress);
 		return v;

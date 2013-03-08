@@ -7,13 +7,12 @@ import org.the86.exception.The86Exception;
 import org.the86.model.Group;
 
 import android.app.ListFragment;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.podling.podroid.PodroidApplication;
@@ -24,26 +23,38 @@ import com.podling.podroid.group.GroupActivity;
 public class GroupsFragment extends ListFragment {
 	private The86 the86;
 
+	protected LinearLayout progress;
+	private boolean fetched;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		fetched = false;
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
-		new RetrieveGroupsTask(getActivity()).execute();
-	}
-
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		Group group = (Group) getListAdapter().getItem(position);
-		startActivity(GroupActivity.newInstance(getActivity(), group));
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.groups, container, false);
+		progress = (LinearLayout) v.findViewById(R.id.groups_loading_progress);
 		return v;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (!fetched) {
+			new RetrieveGroupsTask().execute();
+		}
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Group group = (Group) getListAdapter().getItem(position);
+		startActivity(GroupActivity.newInstance(getActivity(), group));
 	}
 
 	private void populate(List<Group> groups) {
@@ -51,18 +62,10 @@ public class GroupsFragment extends ListFragment {
 	}
 
 	class RetrieveGroupsTask extends AsyncTask<Void, Void, List<Group>> {
-		protected ProgressDialog dialog;
-
-		public RetrieveGroupsTask(Context context) {
-			// create a progress dialog
-			dialog = new ProgressDialog(context);
-			dialog.setMessage("loading groups");
-			dialog.setCancelable(false);
-		}
 
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog.show();
+			progress.setVisibility(View.VISIBLE);
 		}
 
 		protected List<Group> doInBackground(Void... params) {
@@ -77,7 +80,8 @@ public class GroupsFragment extends ListFragment {
 
 		protected void onPostExecute(List<Group> groups) {
 			populate(groups);
-			dialog.dismiss();
+			progress.setVisibility(View.GONE);
+			fetched = true;
 		}
 	}
 }

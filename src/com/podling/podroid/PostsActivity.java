@@ -22,9 +22,15 @@ public class PostsActivity extends ListActivity {
 	private The86 the86;
 
 	public static Intent newInstance(Context context, Conversation conversation) {
+		return newInstance(context, conversation.getGroup().getSlug(),
+				conversation.getId());
+	}
+
+	public static Intent newInstance(Context context, String groupSlug,
+			String conversationId) {
 		Intent intent = new Intent(context, PostsActivity.class);
-		intent.putExtra("groupSlug", conversation.getGroup().getSlug());
-		intent.putExtra("conversationId", conversation.getId());
+		intent.putExtra("groupSlug", groupSlug);
+		intent.putExtra("conversationId", conversationId);
 		return intent;
 	}
 

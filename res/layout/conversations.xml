@@ -12,7 +12,7 @@
         android:visibility="gone" >
 
         <ProgressBar
-            android:id="@+id/onversation_loading_progress_bar"
+            android:id="@+id/conversation_loading_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
         </ProgressBar>
