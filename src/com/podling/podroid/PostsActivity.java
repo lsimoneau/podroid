@@ -46,7 +46,9 @@ public class PostsActivity extends ListActivity {
 		groupSlug = extras.getString("groupSlug");
 		conversationId = extras.getString("conversationId");
 		new RetrievePostsTask(this).execute();
-
+		
+		getListView().setItemsCanFocus(true);
+		
 		setContentView(R.layout.posts);
 	}
 

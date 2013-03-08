@@ -8,7 +8,7 @@ import org.the86.model.User;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
-import android.text.util.Linkify;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +43,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
 		TextView content = (TextView) view.findViewById(R.id.post_content);
 		content.setText(Html.fromHtml(post.getContentHtml()));
+		content.setMovementMethod(LinkMovementMethod.getInstance());
 
 		TextView likes = (TextView) view.findViewById(R.id.post_likes);
 		likes.setText(likeCount(post));
