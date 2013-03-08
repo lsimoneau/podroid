@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 
 import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
@@ -22,7 +21,7 @@ import com.podling.podroid.TabListener;
 
 public class MainActivity extends Activity {
 
-	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 5; // 10MB
+	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 5; // 5 MB
 	private static final String DISK_CACHE_SUBDIR = "thumbnails";
 	private ActionBar actionBar;
 	private boolean tabsSetup = false;
@@ -32,10 +31,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// setup disk cache
-		File cacheDir = getDiskCacheDir(getApplicationContext(),
-				DISK_CACHE_SUBDIR);
-		new InitDiskCacheTask().execute(cacheDir);
+		setupDiskCache();
 
 		actionBar = getActionBar();
 
@@ -59,15 +55,21 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	@Override
 	protected void onResume() {
 		super.onResume();
 
-		Log.d("MA", "resume");
 		the86 = ((PodroidApplication) getApplicationContext()).getThe86();
 
 		if (!tabsSetup && the86 != null) {
 			createTabs();
 		}
+	}
+
+	private void setupDiskCache() {
+		File cacheDir = getDiskCacheDir(getApplicationContext(),
+				DISK_CACHE_SUBDIR);
+		new InitDiskCacheTask().execute(cacheDir);
 	}
 
 	public void createTabs() {
@@ -82,9 +84,9 @@ public class MainActivity extends Activity {
 
 		tab = actionBar
 				.newTab()
-				.setText("groups")
+				.setText("pods")
 				.setTabListener(
-						new TabListener<GroupsFragment>(this, "groups",
+						new TabListener<GroupsFragment>(this, "pods",
 								GroupsFragment.class));
 		actionBar.addTab(tab);
 
@@ -110,13 +112,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	// Creates a unique subdirectory of the designated app cache directory.
-	// Tries to use external
-	// but if not mounted, falls back on internal storage.
 	public static File getDiskCacheDir(Context context, String uniqueName) {
-		// Check if media is mounted or storage is built-in, if so, try and use
-		// external cache dir
-		// otherwise use internal cache dir
 		final String cachePath = Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())
 				|| !Environment.isExternalStorageRemovable() ? context
