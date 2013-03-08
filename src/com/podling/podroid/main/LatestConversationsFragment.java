@@ -7,13 +7,12 @@ import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
 
 import android.app.ListFragment;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.podling.podroid.PodroidApplication;
@@ -23,6 +22,7 @@ import com.podling.podroid.adapter.ConversationAdapter;
 
 public class LatestConversationsFragment extends ListFragment {
 	private The86 the86;
+	protected LinearLayout progress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,14 +30,21 @@ public class LatestConversationsFragment extends ListFragment {
 
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
-		new RetrieveLatestConversationsTask(getActivity()).execute();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.conversations, container, false);
+
+		progress = (LinearLayout) v
+				.findViewById(R.id.conversation_loading_progress);
 		return v;
+	}
+
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		new RetrieveLatestConversationsTask().execute();
 	}
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -54,18 +61,10 @@ public class LatestConversationsFragment extends ListFragment {
 
 	class RetrieveLatestConversationsTask extends
 			AsyncTask<Void, Void, List<Conversation>> {
-		protected ProgressDialog dialog;
-
-		public RetrieveLatestConversationsTask(Context context) {
-			// create a progress dialog
-			dialog = new ProgressDialog(context);
-			dialog.setMessage("loading conversations");
-			dialog.setCancelable(false);
-		}
 
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog.show();
+			progress.setVisibility(View.VISIBLE);
 		}
 
 		protected List<Conversation> doInBackground(Void... params) {
@@ -80,7 +79,7 @@ public class LatestConversationsFragment extends ListFragment {
 
 		protected void onPostExecute(List<Conversation> conversations) {
 			populate(conversations);
-			dialog.dismiss();
+			progress.setVisibility(View.GONE);
 		}
 	}
 }
