@@ -41,26 +41,27 @@ public final class R {
         public static final int menu_new=0x7f07001b;
         public static final int podling_logo=0x7f070001;
         public static final int post_content=0x7f070019;
+        public static final int post_context_menu_like=0x7f07001d;
         public static final int post_likes=0x7f07001a;
         public static final int post_user_avatar=0x7f070017;
         public static final int post_user_name=0x7f070018;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int authentication=0x7f030001;
-        public static final int conversation=0x7f030002;
-        public static final int conversations=0x7f030003;
-        public static final int create_group=0x7f030004;
-        public static final int group=0x7f030005;
-        public static final int group_member=0x7f030006;
-        public static final int group_members=0x7f030007;
-        public static final int groups=0x7f030008;
-        public static final int post=0x7f030009;
-        public static final int posts=0x7f03000a;
+        public static final int authentication=0x7f030000;
+        public static final int conversation=0x7f030001;
+        public static final int conversations=0x7f030002;
+        public static final int create_group=0x7f030003;
+        public static final int group=0x7f030004;
+        public static final int group_member=0x7f030005;
+        public static final int group_members=0x7f030006;
+        public static final int groups=0x7f030007;
+        public static final int post=0x7f030008;
+        public static final int posts=0x7f030009;
     }
     public static final class menu {
         public static final int conversations_menu=0x7f060000;
         public static final int group_list_menu=0x7f060001;
+        public static final int post_context_menu=0x7f060002;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
@@ -70,6 +71,7 @@ public final class R {
         public static final int create_group_submit=0x7f04000d;
         public static final int create_pod=0x7f04000b;
         public static final int create_pod_hint=0x7f04000c;
+        public static final int like_post=0x7f04000e;
         public static final int logo_description=0x7f040009;
         public static final int menu_settings=0x7f040001;
         public static final int no_conversations=0x7f040003;

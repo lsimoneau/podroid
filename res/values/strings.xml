@@ -15,4 +15,6 @@
     <string name="create_pod">What do you want to call your pod?</string>
     <string name="create_pod_hint">Pod name</string>
 	<string name="create_group_submit">Create</string>
+	<string name="like_post">Like</string>
+	
 </resources>

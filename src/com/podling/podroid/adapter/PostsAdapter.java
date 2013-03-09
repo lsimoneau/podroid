@@ -7,8 +7,6 @@ import org.the86.model.User;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.podling.podroid.DownloadImageTask;
+import com.podling.podroid.HtmlTextView;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 
@@ -41,9 +40,11 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 		TextView name = (TextView) view.findViewById(R.id.post_user_name);
 		name.setText(post.getUser().getName());
 
-		TextView content = (TextView) view.findViewById(R.id.post_content);
-		content.setText(Html.fromHtml(post.getContentHtml()));
-		content.setMovementMethod(LinkMovementMethod.getInstance());
+		HtmlTextView content = (HtmlTextView) view
+				.findViewById(R.id.post_content);
+		content.setHtml(post.getContentHtml());
+		content.setMovementMethod(HtmlTextView.LocalLinkMovementMethod
+				.getInstance());
 
 		TextView likes = (TextView) view.findViewById(R.id.post_likes);
 		likes.setText(likeCount(post));
