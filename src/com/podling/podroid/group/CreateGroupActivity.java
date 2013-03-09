@@ -1,4 +1,4 @@
-package com.podling.podroid;
+package com.podling.podroid.group;
 
 import org.the86.The86;
 import org.the86.exception.The86Exception;
@@ -15,7 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.podling.podroid.group.GroupActivity;
+import com.podling.podroid.PodroidApplication;
+import com.podling.podroid.R;
+import com.podling.podroid.R.id;
+import com.podling.podroid.R.layout;
 
 public class CreateGroupActivity extends Activity {
 	private EditText groupNameEdit;

@@ -1,4 +1,4 @@
-package com.podling.podroid;
+package com.podling.podroid.util;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;

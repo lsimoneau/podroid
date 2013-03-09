@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.podling.podroid.PostsActivity;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
+import com.podling.podroid.posts.PostsActivity;
 
 public class GroupConversationsFragment extends GroupFragment {
 

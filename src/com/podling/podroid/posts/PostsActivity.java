@@ -1,4 +1,4 @@
-package com.podling.podroid;
+package com.podling.podroid.posts;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import org.the86.model.Like;
 import org.the86.model.Post;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,10 +18,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.LinearLayout;
 
+import com.podling.podroid.PodroidApplication;
+import com.podling.podroid.R;
 import com.podling.podroid.adapter.PostsAdapter;
 
 public class PostsActivity extends ListActivity {
+	protected LinearLayout progress;
 	private String groupSlug;
 	private String conversationId;
 	private The86 the86;
@@ -48,11 +51,14 @@ public class PostsActivity extends ListActivity {
 		Bundle extras = getIntent().getExtras();
 		groupSlug = extras.getString("groupSlug");
 		conversationId = extras.getString("conversationId");
-		new RetrievePostsTask(this).execute();
 
 		setContentView(R.layout.posts);
-		
-		//getListView().setItemsCanFocus(true);
+
+		progress = (LinearLayout) findViewById(R.id.posts_loading_progress);
+
+		new RetrievePostsTask().execute();
+
+		// getListView().setItemsCanFocus(true);
 		registerForContextMenu(getListView());
 	}
 
@@ -106,18 +112,11 @@ public class PostsActivity extends ListActivity {
 	}
 
 	class RetrievePostsTask extends AsyncTask<Void, Void, List<Post>> {
-		protected ProgressDialog dialog;
-
-		public RetrievePostsTask(Context context) {
-			dialog = new ProgressDialog(context);
-			dialog.setMessage("loading posts");
-			dialog.setCancelable(false);
-		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog.show();
+			progress.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -134,7 +133,7 @@ public class PostsActivity extends ListActivity {
 		@Override
 		protected void onPostExecute(List<Post> posts) {
 			populate(posts);
-			dialog.dismiss();
+			progress.setVisibility(View.GONE);
 		}
 
 	}

@@ -28,11 +28,11 @@
         </activity>
         <activity android:name="com.podling.podroid.AuthenticationActivity" >
         </activity>
+        <activity android:name="com.podling.podroid.group.CreateGroupActivity" >
+        </activity>
         <activity android:name="com.podling.podroid.group.GroupActivity" >
         </activity>
-        <activity android:name="com.podling.podroid.PostsActivity" >
-        </activity>
-        <activity android:name="com.podling.podroid.CreateGroupActivity" >
+        <activity android:name="com.podling.podroid.posts.PostsActivity" >
         </activity>
     </application>
 

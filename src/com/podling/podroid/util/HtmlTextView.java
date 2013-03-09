@@ -1,4 +1,4 @@
-package com.podling.podroid;
+package com.podling.podroid.util;
 
 import android.content.Context;
 import android.text.Html;

@@ -18,7 +18,7 @@ import android.os.Environment;
 
 import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
-import com.podling.podroid.TabListener;
+import com.podling.podroid.util.TabListener;
 
 public class MainActivity extends Activity {
 

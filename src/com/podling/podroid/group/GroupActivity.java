@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.podling.podroid.TabListener;
+import com.podling.podroid.util.TabListener;
 
 public class GroupActivity extends Activity {
 

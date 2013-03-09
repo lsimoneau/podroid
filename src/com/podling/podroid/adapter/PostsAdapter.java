@@ -15,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.podling.podroid.DownloadImageTask;
-import com.podling.podroid.HtmlTextView;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
+import com.podling.podroid.util.HtmlTextView;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
 	private final Activity context;
