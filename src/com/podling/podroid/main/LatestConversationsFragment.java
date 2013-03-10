@@ -54,7 +54,9 @@ public class LatestConversationsFragment extends ListFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.menu_new) {
+		// check for fetched to stop double refresh
+		if (fetched && item.getItemId() == R.id.refresh_conversations_menu_item) {
+			fetchConversations();
 		}
 		return true;
 	}
@@ -63,7 +65,7 @@ public class LatestConversationsFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if (!fetched) {
-			new RetrieveLatestConversationsTask().execute();
+			fetchConversations();
 		}
 	}
 
@@ -75,8 +77,14 @@ public class LatestConversationsFragment extends ListFragment {
 		startActivity(PostsActivity.newInstance(getActivity(), conversation));
 	}
 
+	private void fetchConversations() {
+		getListView().setVisibility(View.GONE);
+		new RetrieveLatestConversationsTask().execute();
+	}
+
 	private void populate(List<Conversation> conversations) {
 		setListAdapter(new ConversationAdapter(getActivity(), conversations));
+		getListView().setVisibility(View.VISIBLE);
 	}
 
 	class RetrieveLatestConversationsTask extends

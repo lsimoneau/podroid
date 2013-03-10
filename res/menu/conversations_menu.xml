@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_new"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:showAsAction="ifRoom|withText"
-        android:title="set text"/>
+        android:id="@+id/refresh_conversations_menu_item"
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="ifRoom"
+        android:title="refresh"/>
 
 </menu>

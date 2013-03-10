@@ -4,7 +4,13 @@
     <item
         android:id="@+id/menu_create_group"
         android:icon="@android:drawable/ic_menu_add"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="ifRoom"
         android:title="create pod"/>
+    
+    <item
+        android:id="@+id/refresh_groups_menu_item"
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="ifRoom"
+        android:title="refresh"/>
 
 </menu>

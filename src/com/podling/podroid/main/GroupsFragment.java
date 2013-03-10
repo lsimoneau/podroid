@@ -51,7 +51,7 @@ public class GroupsFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if (!fetched) {
-			new RetrieveGroupsTask().execute();
+			fetchGroups();
 		}
 	}
 
@@ -64,6 +64,8 @@ public class GroupsFragment extends ListFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_create_group) {
 			startActivity(CreateGroupActivity.newInstance(getActivity()));
+		} else if(fetched && item.getItemId() == R.id.refresh_groups_menu_item) {
+			fetchGroups();
 		}
 		return true;
 	}
@@ -74,9 +76,15 @@ public class GroupsFragment extends ListFragment {
 		Group group = (Group) getListAdapter().getItem(position);
 		startActivity(GroupActivity.newInstance(getActivity(), group));
 	}
+	
+	private void fetchGroups() {
+		getListView().setVisibility(View.GONE);
+		new RetrieveGroupsTask().execute();
+	}
 
 	private void populate(List<Group> groups) {
 		setListAdapter(new GroupAdapter(getActivity(), groups));
+		getListView().setVisibility(View.VISIBLE);
 	}
 
 	class RetrieveGroupsTask extends AsyncTask<Void, Void, List<Group>> {

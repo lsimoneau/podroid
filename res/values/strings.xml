@@ -16,9 +16,10 @@
     <string name="create_pod_hint">Pod name</string>
     <string name="create_group_submit">Create</string>
     <string name="like_post">Like</string>
-     <string name="unlike_post">Unlike</string>
+    <string name="unlike_post">Unlike</string>
     <string name="create_conversation_hint">Start a new discussion</string>
     <string name="create_post_hint">Write a response</string>
     <string name="reply_to_post">Reply</string>
+    <string name="user_avatar_description">user_avatar_description</string>
 
 </resources>
