@@ -4,7 +4,12 @@
     <item
         android:id="@+id/menu_create_conversation"
         android:icon="@drawable/ic_menu_compose"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="ifRoom"
         android:title="start conversation"/>
+    <item
+        android:id="@+id/refresh_conversations_menu_item"
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="ifRoom"
+        android:title="refresh"/>
 
 </menu>

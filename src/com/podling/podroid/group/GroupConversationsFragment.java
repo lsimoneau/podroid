@@ -6,8 +6,6 @@ import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
 
 import android.app.FragmentManager;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.podling.podroid.CreateConversationDialogFragment;
@@ -24,12 +23,14 @@ import com.podling.podroid.adapter.ConversationAdapter;
 import com.podling.podroid.posts.PostsActivity;
 
 public class GroupConversationsFragment extends GroupFragment {
+	private LinearLayout progress;
+	private boolean fetched;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		fetched = false;
 		setHasOptionsMenu(true);
-		new RetrieveConversationsTask(getActivity()).execute();
 	}
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -44,6 +45,8 @@ public class GroupConversationsFragment extends GroupFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.conversations, container, false);
+		progress = (LinearLayout) v
+				.findViewById(R.id.conversation_loading_progress);
 		return v;
 	}
 
@@ -59,28 +62,37 @@ public class GroupConversationsFragment extends GroupFragment {
 					.newInstance(groupSlug);
 			FragmentManager fragmentManager = getFragmentManager();
 			dialog.show(fragmentManager, "create_conversation");
+		} else if (fetched
+				&& item.getItemId() == R.id.refresh_conversations_menu_item) {
+			fetchConversations();
 		}
 		return true;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (!fetched) {
+			fetchConversations();
+		}
+	}
+
+	public void fetchConversations() {
+		getListView().setVisibility(View.GONE);
+		new RetrieveConversationsTask().execute();
+	}
+
 	private void populate(List<Conversation> conversations) {
 		setListAdapter(new ConversationAdapter(getActivity(), conversations));
+		getListView().setVisibility(View.VISIBLE);
 	}
 
 	class RetrieveConversationsTask extends
 			AsyncTask<Void, Void, List<Conversation>> {
-		protected ProgressDialog dialog;
-
-		public RetrieveConversationsTask(Context context) {
-			// create a progress dialog
-			dialog = new ProgressDialog(context);
-			dialog.setMessage("loading conversations");
-			dialog.setCancelable(false);
-		}
 
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog.show();
+			progress.setVisibility(View.VISIBLE);
 		}
 
 		protected List<Conversation> doInBackground(Void... params) {
@@ -95,7 +107,8 @@ public class GroupConversationsFragment extends GroupFragment {
 
 		protected void onPostExecute(List<Conversation> conversations) {
 			populate(conversations);
-			dialog.dismiss();
+			fetched = true;
+			progress.setVisibility(View.GONE);
 		}
 
 	}

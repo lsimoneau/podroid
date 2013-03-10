@@ -34,6 +34,7 @@ public class CreateConversationDialogFragment extends DialogFragment {
 
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.create_conversation_dialog, null);
@@ -46,10 +47,10 @@ public class CreateConversationDialogFragment extends DialogFragment {
 								.execute(content.getText().toString());
 					}
 				})
-				.setNegativeButton("nope",
+				.setNegativeButton("cancel",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								// User cancelled the dialog
+								// do nothing
 							}
 						});
 
@@ -83,7 +84,6 @@ public class CreateConversationDialogFragment extends DialogFragment {
 		}
 
 		protected void onPostExecute(Conversation conversations) {
-			// populate(conversations);
 			dialog.dismiss();
 		}
 
