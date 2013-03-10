@@ -34,6 +34,8 @@
         </activity>
         <activity android:name="com.podling.podroid.posts.PostsActivity" >
         </activity>
+        <activity android:name="com.podling.podroid.users.UserActivity" >
+        </activity>
     </application>
 
 </manifest>

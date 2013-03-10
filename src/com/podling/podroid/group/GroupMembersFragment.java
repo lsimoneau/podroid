@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.GroupMembershipAdapter;
@@ -29,6 +30,14 @@ public class GroupMembersFragment extends GroupFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.group_members, container, false);
 		return v;
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		// TODO api doesn't support fetching individual users
+//		User user = (User) getListAdapter().getItem(position);
+//		startActivity(UserActivity.newInstance(getActivity(), user.getId()));
 	}
 
 	private void populate(List<User> memberships) {
