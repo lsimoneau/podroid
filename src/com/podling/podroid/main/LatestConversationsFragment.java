@@ -1,5 +1,6 @@
 package com.podling.podroid.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.the86.The86;
@@ -33,6 +34,8 @@ public class LatestConversationsFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		fetched = false;
 		setHasOptionsMenu(true);
+		setListAdapter(new ConversationAdapter(getActivity(),
+				new ArrayList<Conversation>()));
 		the86 = ((PodroidApplication) getActivity().getApplicationContext())
 				.getThe86();
 	}
@@ -41,7 +44,6 @@ public class LatestConversationsFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.conversations, container, false);
-
 		progress = (LinearLayout) v
 				.findViewById(R.id.conversation_loading_progress);
 		return v;
@@ -78,13 +80,12 @@ public class LatestConversationsFragment extends ListFragment {
 	}
 
 	private void fetchConversations() {
-		getListView().setVisibility(View.GONE);
+		((ConversationAdapter) getListAdapter()).clear();
 		new RetrieveLatestConversationsTask().execute();
 	}
 
 	private void populate(List<Conversation> conversations) {
-		setListAdapter(new ConversationAdapter(getActivity(), conversations));
-		getListView().setVisibility(View.VISIBLE);
+		((ConversationAdapter) getListAdapter()).addAll(conversations);
 	}
 
 	class RetrieveLatestConversationsTask extends
