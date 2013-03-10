@@ -37,7 +37,8 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 		View view = inflater.inflate(R.layout.conversation, null);
 
 		Conversation conversation = getItem(position);
-		Post post = conversation.getPosts().get(0);
+		Post post = conversation.getPosts().get(
+				conversation.getPosts().size() - 1);
 		User user = post.getUser();
 
 		TextView poster = (TextView) view
