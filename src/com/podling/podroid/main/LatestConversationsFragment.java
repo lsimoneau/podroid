@@ -26,13 +26,13 @@ import com.podling.podroid.posts.PostsActivity;
 
 public class LatestConversationsFragment extends ListFragment {
 	private The86 the86;
-	protected LinearLayout progress;
-	private boolean fetched;
+	private LinearLayout progress;
+	private boolean fetched = false;
+	private boolean allowRefresh = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		fetched = false;
 		setHasOptionsMenu(true);
 		setListAdapter(new ConversationAdapter(getActivity(),
 				new ArrayList<Conversation>()));
@@ -52,12 +52,13 @@ public class LatestConversationsFragment extends ListFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.conversations_menu, menu);
+		MenuItem refresh = menu.findItem(R.id.refresh_conversations_menu_item);
+		refresh.setEnabled(allowRefresh);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// check for fetched to stop double refresh
-		if (fetched && item.getItemId() == R.id.refresh_conversations_menu_item) {
+		if (item.getItemId() == R.id.refresh_conversations_menu_item) {
 			fetchConversations();
 		}
 		return true;
@@ -80,12 +81,19 @@ public class LatestConversationsFragment extends ListFragment {
 	}
 
 	private void fetchConversations() {
+		setRefreshable(false);
 		((ConversationAdapter) getListAdapter()).clear();
 		new RetrieveLatestConversationsTask().execute();
 	}
 
 	private void populate(List<Conversation> conversations) {
 		((ConversationAdapter) getListAdapter()).addAll(conversations);
+		setRefreshable(true);
+	}
+
+	private void setRefreshable(boolean allowRefresh) {
+		this.allowRefresh = allowRefresh;
+		getActivity().invalidateOptionsMenu();
 	}
 
 	class RetrieveLatestConversationsTask extends
