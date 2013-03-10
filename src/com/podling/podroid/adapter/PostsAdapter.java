@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.kevinsawicki.timeago.TimeAgo;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
@@ -39,6 +40,9 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
 		TextView name = (TextView) view.findViewById(R.id.post_user_name);
 		name.setText(post.getUser().getName());
+
+		TextView createdAt = (TextView) view.findViewById(R.id.post_created_at);
+		createdAt.setText(new TimeAgo().timeAgo(post.getCreatedAt()));
 
 		HtmlTextView content = (HtmlTextView) view
 				.findViewById(R.id.post_content);
