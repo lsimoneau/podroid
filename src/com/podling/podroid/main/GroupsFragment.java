@@ -1,5 +1,6 @@
 package com.podling.podroid.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.the86.The86;
@@ -18,25 +19,24 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.GroupAdapter;
 import com.podling.podroid.group.CreateGroupActivity;
 import com.podling.podroid.group.GroupActivity;
+import com.podling.podroid.util.The86Util;
 
 public class GroupsFragment extends ListFragment {
 	private The86 the86;
-
 	protected LinearLayout progress;
-	private boolean fetched;
+	private boolean fetched = false;
+	private boolean allowRefresh = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		fetched = false;
 		setHasOptionsMenu(true);
-		the86 = ((PodroidApplication) getActivity().getApplicationContext())
-				.getThe86();
+		setListAdapter(new GroupAdapter(getActivity(), new ArrayList<Group>()));
+		the86 = The86Util.get(getActivity());
 	}
 
 	@Override
@@ -58,13 +58,15 @@ public class GroupsFragment extends ListFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.group_list_menu, menu);
+		MenuItem refresh = menu.findItem(R.id.refresh_groups_menu_item);
+		refresh.setEnabled(allowRefresh);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_create_group) {
 			startActivity(CreateGroupActivity.newInstance(getActivity()));
-		} else if(fetched && item.getItemId() == R.id.refresh_groups_menu_item) {
+		} else if (item.getItemId() == R.id.refresh_groups_menu_item) {
 			fetchGroups();
 		}
 		return true;
@@ -76,15 +78,21 @@ public class GroupsFragment extends ListFragment {
 		Group group = (Group) getListAdapter().getItem(position);
 		startActivity(GroupActivity.newInstance(getActivity(), group));
 	}
-	
+
 	private void fetchGroups() {
-		getListView().setVisibility(View.GONE);
+		setRefreshable(false);
+		((GroupAdapter) getListAdapter()).clear();
 		new RetrieveGroupsTask().execute();
 	}
 
 	private void populate(List<Group> groups) {
-		setListAdapter(new GroupAdapter(getActivity(), groups));
-		getListView().setVisibility(View.VISIBLE);
+		((GroupAdapter) getListAdapter()).addAll(groups);
+		setRefreshable(true);
+	}
+
+	private void setRefreshable(boolean allowRefresh) {
+		this.allowRefresh = allowRefresh;
+		getActivity().invalidateOptionsMenu();
 	}
 
 	class RetrieveGroupsTask extends AsyncTask<Void, Void, List<Group>> {

@@ -19,10 +19,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
 import com.podling.podroid.posts.PostsActivity;
+import com.podling.podroid.util.The86Util;
 
 public class LatestConversationsFragment extends ListFragment {
 	private The86 the86;
@@ -36,8 +36,7 @@ public class LatestConversationsFragment extends ListFragment {
 		setHasOptionsMenu(true);
 		setListAdapter(new ConversationAdapter(getActivity(),
 				new ArrayList<Conversation>()));
-		the86 = ((PodroidApplication) getActivity().getApplicationContext())
-				.getThe86();
+		the86 = The86Util.get(getActivity());
 	}
 
 	@Override
