@@ -1,5 +1,6 @@
 package com.podling.podroid.posts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.the86.The86;
@@ -23,15 +24,16 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
 
 import com.podling.podroid.CreatePostDialogFragment;
-import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.PostsAdapter;
+import com.podling.podroid.util.The86Util;
 
 public class PostsActivity extends ListActivity {
-	protected LinearLayout progress;
+	private The86 the86;
+	private LinearLayout progress;
 	private String groupSlug;
 	private String conversationId;
-	private The86 the86;
+	private boolean allowRefresh = false;
 
 	public static Intent newInstance(Context context, Conversation conversation) {
 		return newInstance(context, conversation.getGroup().getSlug(),
@@ -49,7 +51,7 @@ public class PostsActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		the86 = ((PodroidApplication) getApplicationContext()).getThe86();
+		the86 = The86Util.get(this);
 
 		Bundle extras = getIntent().getExtras();
 		groupSlug = extras.getString("groupSlug");
@@ -59,10 +61,12 @@ public class PostsActivity extends ListActivity {
 
 		progress = (LinearLayout) findViewById(R.id.posts_loading_progress);
 
-		fetchPosts();
-
 		// getListView().setItemsCanFocus(true);
 		registerForContextMenu(getListView());
+
+		setListAdapter(new PostsAdapter(this, new ArrayList<Post>()));
+
+		fetchPosts();
 	}
 
 	@Override
@@ -103,6 +107,8 @@ public class PostsActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = new MenuInflater(this);
 		inflater.inflate(R.menu.posts_menu, menu);
+		MenuItem refresh = menu.findItem(R.id.refresh_posts_menu_item);
+		refresh.setEnabled(allowRefresh);
 		return true;
 	}
 
@@ -120,13 +126,19 @@ public class PostsActivity extends ListActivity {
 	}
 
 	private void fetchPosts() {
-		getListView().setVisibility(View.GONE);
+		setRefreshable(false);
+		((PostsAdapter) getListAdapter()).clear();
 		new RetrievePostsTask().execute();
 	}
 
 	private void populate(List<Post> posts) {
-		setListAdapter(new PostsAdapter(this, posts));
-		getListView().setVisibility(View.VISIBLE);
+		((PostsAdapter) getListAdapter()).addAll(posts);
+		setRefreshable(true);
+	}
+
+	private void setRefreshable(boolean allowRefresh) {
+		this.allowRefresh = allowRefresh;
+		invalidateOptionsMenu();
 	}
 
 	class TogglePostLikeTask extends AsyncTask<Post, Void, Like> {
