@@ -20,86 +20,91 @@ import com.github.kevinsawicki.timeago.TimeAgo;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
+import com.podling.podroid.util.ConversationUtil;
+import com.podling.podroid.util.PostUtil;
 
 public class ConversationAdapter extends ArrayAdapter<Conversation> {
 	private final Activity context;
+	private static final int LAYOUT = R.layout.conversation;
 
 	public ConversationAdapter(Activity context,
 			List<Conversation> conversations) {
-		super(context, R.layout.conversation, conversations);
+		super(context, LAYOUT, conversations);
 		this.context = context;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.conversation, null);
+		ConversationViewHolder holder;
 
 		Conversation conversation = getItem(position);
 		Post post = conversation.getPosts().get(
 				conversation.getPosts().size() - 1);
 		User user = post.getUser();
 
-		TextView poster = (TextView) view
-				.findViewById(R.id.conversation_poster);
-		poster.setText(user.getName());
+		if (convertView == null) {
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(LAYOUT, null);
 
-		TextView content = (TextView) view
-				.findViewById(R.id.conversation_content);
-		content.setText(Html.fromHtml(post.getContentHtml()));
+			holder = new ConversationViewHolder();
 
-		TextView group_name = (TextView) view
-				.findViewById(R.id.conversation_group_name);
-		if (conversation.getGroup() != null) {
-			group_name.setText(conversation.getGroup().getName());
+			holder.avatar = (ImageView) convertView
+					.findViewById(R.id.conversation_poster_avatar);
+			holder.posterName = (TextView) convertView
+					.findViewById(R.id.conversation_poster);
+			holder.groupName = (TextView) convertView
+					.findViewById(R.id.conversation_group_name);
+			holder.bumpedAt = (TextView) convertView
+					.findViewById(R.id.conversation_group_name);
+			holder.replies = (TextView) convertView
+					.findViewById(R.id.conversation_replies);
+			holder.likes = (TextView) convertView
+					.findViewById(R.id.conversation_likes);
+			holder.content = (TextView) convertView
+					.findViewById(R.id.conversation_content);
+
+			convertView.setTag(holder);
 		} else {
-			group_name.setVisibility(View.GONE);
+			holder = (ConversationViewHolder) convertView.getTag();
 		}
 
-		TextView created = (TextView) view
-				.findViewById(R.id.conversation_bumped_at);
-		created.setText(new TimeAgo().timeAgo(conversation.getBumpedAt()));
+		holder.posterName.setText(user.getName());
 
-		TextView replies = (TextView) view
-				.findViewById(R.id.conversation_replies);
-		replies.setText(replyCount(conversation));
+		holder.content.setText(Html.fromHtml(post.getContentHtml()));
 
-		TextView likes = (TextView) view.findViewById(R.id.conversation_likes);
-		likes.setText(likeCount(post));
+		if (conversation.getGroup() != null) {
+			holder.groupName.setText(conversation.getGroup().getName());
+		} else {
+			holder.groupName.setVisibility(View.GONE);
+		}
 
-		ImageView avatar_image = (ImageView) view
-				.findViewById(R.id.conversation_poster_avatar);
+		holder.bumpedAt.setText(new TimeAgo().timeAgo(conversation
+				.getBumpedAt()));
+
+		holder.replies.setText(ConversationUtil.replyCount(conversation));
+
+		holder.likes.setText(PostUtil.likeCount(post));
+
+		holder.position = position;
+
 		if (user.getAvatarUrl() != null) {
 			new DownloadImageTask(
-					(PodroidApplication) context.getApplication(), avatar_image)
-					.execute(user.getAvatarUrl());
+					(PodroidApplication) context.getApplication(), position,
+					holder).execute(user.getAvatarUrl());
+		} else {
+			holder.avatar.setImageResource(R.drawable.ic_contact_picture);
 		}
-		return view;
+
+		return convertView;
 	}
 
-	// TODO extract
-	private String likeCount(Post post) {
-		int count = post.getLikes().size();
-		switch (count) {
-		case 0:
-			return "";
-		case 1:
-			return "1 like";
-		default:
-			return String.format("%d likes", count);
-		}
-	}
-
-	private String replyCount(Conversation conversation) {
-		int count = conversation.getPosts().size() - 1; // -1 for OP
-		switch (count) {
-		case 0:
-			return "";
-		case 1:
-			return "1 reply";
-		default:
-			return String.format("%d replies", count);
-		}
+	static class ConversationViewHolder extends AvatarViewHolder {
+		TextView posterName;
+		TextView groupName;
+		TextView bumpedAt;
+		TextView replies;
+		TextView likes;
+		TextView content;
 	}
 }

@@ -19,6 +19,7 @@ import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.util.HtmlTextView;
+import com.podling.podroid.util.PostUtil;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
 	private final Activity context;
@@ -31,54 +32,69 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(LAYOUT, null);
+		PostViewHolder holder;
 
 		Post post = getItem(position);
 		User user = post.getUser();
 
-		TextView name = (TextView) view.findViewById(R.id.post_user_name);
-		name.setText(post.getUser().getName());
+		if (convertView == null) {
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(LAYOUT, null);
+			holder = new PostViewHolder();
 
-		TextView statusTxt = (TextView) view.findViewById(R.id.post_status);
+			holder.avatar = (ImageView) convertView
+					.findViewById(R.id.post_user_avatar);
+			holder.posterName = (TextView) convertView
+					.findViewById(R.id.post_user_name);
+			holder.status = (TextView) convertView
+					.findViewById(R.id.post_status);
+			holder.likes = (TextView) convertView.findViewById(R.id.post_likes);
+			holder.content = (HtmlTextView) convertView
+					.findViewById(R.id.post_content);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (PostViewHolder) convertView.getTag();
+		}
+
+		holder.posterName.setText(user.getName());
+
+		holder.status.setText(statusForPost(post));
+
+		holder.content.setHtml(post.getContentHtml());
+		holder.content.setMovementMethod(HtmlTextView.LocalLinkMovementMethod
+				.getInstance());
+
+		holder.likes.setText(PostUtil.likeCount(post));
+
+		holder.position = position;
+
+		if (user.getAvatarUrl() != null) {
+			new DownloadImageTask(
+					(PodroidApplication) context.getApplication(), position,
+					holder).execute(user.getAvatarUrl());
+		} else {
+			holder.avatar.setImageResource(R.drawable.ic_contact_picture);
+		}
+
+		return convertView;
+	}
+
+	private String statusForPost(Post post) {
 		String status = new TimeAgo().timeAgo(post.getCreatedAt());
 		if (post.getInReplyToId() != null) {
 			status = String.format("%s in reply to %s", status, post
 					.getInReplyTo().getUser().getName());
 		}
-		statusTxt.setText(status);
-
-		HtmlTextView content = (HtmlTextView) view
-				.findViewById(R.id.post_content);
-		content.setHtml(post.getContentHtml());
-		content.setMovementMethod(HtmlTextView.LocalLinkMovementMethod
-				.getInstance());
-
-		TextView likes = (TextView) view.findViewById(R.id.post_likes);
-		likes.setText(likeCount(post));
-
-		ImageView avatar_image = (ImageView) view
-				.findViewById(R.id.post_user_avatar);
-		if (user.getAvatarUrl() != null) {
-			new DownloadImageTask(
-					(PodroidApplication) context.getApplication(), avatar_image)
-					.execute(user.getAvatarUrl());
-		}
-
-		return view;
+		return status;
 	}
 
-	// TODO extract
-	private String likeCount(Post post) {
-		int count = post.getLikes().size();
-		switch (count) {
-		case 0:
-			return "";
-		case 1:
-			return "1 like";
-		default:
-			return String.format("%d likes", count);
-		}
+	static class PostViewHolder extends AvatarViewHolder {
+		TextView posterName;
+		TextView status;
+		TextView likes;
+		HtmlTextView content;
 	}
+
 }

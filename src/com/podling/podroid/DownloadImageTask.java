@@ -7,15 +7,19 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
+
+import com.podling.podroid.adapter.AvatarViewHolder;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-	private ImageView bmImage;
-	private PodroidApplication application;
+	private final PodroidApplication application;
+	private final AvatarViewHolder holder;
+	private final int position;
 
-	public DownloadImageTask(PodroidApplication application, ImageView bmImage) {
+	public DownloadImageTask(PodroidApplication application, int position,
+			AvatarViewHolder holder) {
 		this.application = application;
-		this.bmImage = bmImage;
+		this.holder = holder;
+		this.position = position;
 	}
 
 	protected Bitmap doInBackground(String... urls) {
@@ -23,26 +27,28 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 		try {
 			Bitmap bitmap = getBitmapFromDiskCache(imageUrl);
 
-			if (bitmap == null) { // Not found in disk cache
+			if (bitmap == null) {
 				InputStream in = new URL(imageUrl).openStream();
 				bitmap = BitmapFactory.decodeStream(in);
 			}
 
-			// Add final bitmap to caches
 			addBitmapToCache(imageUrl, bitmap);
 
 			return bitmap;
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	protected void onPostExecute(Bitmap result) {
-		bmImage.setImageBitmap(result);
+		if (holder.position == position) {
+			holder.avatar.setImageBitmap(result);
+		}
 	}
 
-	public void addBitmapToCache(String key, Bitmap bitmap) {
+	private void addBitmapToCache(String key, Bitmap bitmap) {
 		// Also add to disk cache
 		synchronized (application.getDiskCacheLock()) {
 			BitmapLruCache cache = application.getDiskCache();
@@ -53,7 +59,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 		}
 	}
 
-	public Bitmap getBitmapFromDiskCache(String key) {
+	private Bitmap getBitmapFromDiskCache(String key) {
 		synchronized (application.getDiskCacheLock()) {
 			// Wait while disk cache is started from background thread
 			while (application.diskCacheStarting()) {

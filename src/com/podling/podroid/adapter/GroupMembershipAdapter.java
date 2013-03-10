@@ -18,35 +18,55 @@ import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 
 public class GroupMembershipAdapter extends ArrayAdapter<User> {
-
+	private static final int LAYOUT = R.layout.group_member;
 	private final Activity context;
 
 	public GroupMembershipAdapter(Activity context, List<User> memberships) {
-		super(context, R.layout.group_member, memberships);
+		super(context, LAYOUT, memberships);
 		this.context = context;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.group_member, null);
+		GroupMembershipViewHolder holder;
 
 		User user = getItem(position);
 
-		TextView name = (TextView) view.findViewById(R.id.group_member_name);
-		name.setText(user.getName());
+		if (convertView == null) {
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(LAYOUT, null);
 
-		TextView profile = (TextView) view
-				.findViewById(R.id.group_member_profile);
-		profile.setText(user.getProfile());
+			holder = new GroupMembershipViewHolder();
 
-		ImageView avatar_image = (ImageView) view
-				.findViewById(R.id.group_member_avatar);
-		if (user.getAvatarUrl() != null) {
-			new DownloadImageTask((PodroidApplication) context.getApplication(), avatar_image).execute(user.getAvatarUrl());
+			holder.avatar = (ImageView) convertView
+					.findViewById(R.id.group_member_avatar);
+			holder.memberName = (TextView) convertView
+					.findViewById(R.id.group_member_name);
+			holder.memberProfile = (TextView) convertView
+					.findViewById(R.id.group_member_profile);
+
+			convertView.setTag(holder);
+		} else {
+			holder = (GroupMembershipViewHolder) convertView.getTag();
 		}
-		return view;
+
+		holder.memberName.setText(user.getName());
+		holder.memberProfile.setText(user.getProfile());
+		holder.position = position;
+		if (user.getAvatarUrl() != null) {
+			new DownloadImageTask(
+					(PodroidApplication) context.getApplication(), position,
+					holder).execute(user.getAvatarUrl());
+		} else {
+			holder.avatar.setImageResource(R.drawable.ic_contact_picture);
+		}
+
+		return convertView;
 	}
 
+	static class GroupMembershipViewHolder extends AvatarViewHolder {
+		TextView memberName;
+		TextView memberProfile;
+	}
 }

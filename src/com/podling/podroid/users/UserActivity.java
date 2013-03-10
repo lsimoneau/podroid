@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 
@@ -41,8 +40,8 @@ public class UserActivity extends Activity {
 	private void populate(User user) {
 		ImageView avatar = (ImageView) findViewById(R.id.user_avatar);
 		if (user.getAvatarUrl() != null) {
-			new DownloadImageTask((PodroidApplication) getApplication(), avatar)
-					.execute(user.getAvatarUrl());
+//			new DownloadImageTask((PodroidApplication) getApplication(), avatar)
+//					.execute(user.getAvatarUrl());
 		}
 
 		TextView name = (TextView) findViewById(R.id.user_name);
