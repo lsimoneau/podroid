@@ -77,11 +77,16 @@ public class PostsActivity extends ListActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
+		Post post = (Post) getListAdapter().getItem(info.position);
 		switch (item.getItemId()) {
 		case R.id.post_context_menu_like:
-			Post post = (Post) getListAdapter().getItem(info.position);
 			new TogglePostLikeTask().execute(post);
 			return true;
+		case R.id.post_context_menu_reply:
+			CreatePostDialogFragment dialog = CreatePostDialogFragment
+					.newInstance(groupSlug, conversationId, post.getId());
+			FragmentManager fragmentManager = getFragmentManager();
+			dialog.show(fragmentManager, "reply_to_post");
 		default:
 			return super.onContextItemSelected(item);
 		}

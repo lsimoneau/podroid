@@ -4,5 +4,8 @@
     <item
         android:id="@+id/post_context_menu_like"
         android:title="@string/like_post"/>
+    <item
+        android:id="@+id/post_context_menu_reply"
+        android:title="@string/reply_to_post"/>
 
 </menu>

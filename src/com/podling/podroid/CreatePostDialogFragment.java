@@ -20,31 +20,34 @@ public class CreatePostDialogFragment extends DialogFragment {
 	private PostService the86;
 	private String groupSlug;
 	private String conversationId;
+	private String inReplyToId;
 
 	public static CreatePostDialogFragment newInstance(String groupSlug,
 			String conversationId) {
+		return newInstance(groupSlug, conversationId, null);
+	}
+
+	public static CreatePostDialogFragment newInstance(String groupSlug,
+			String conversationId, String inReplyToId) {
 		CreatePostDialogFragment dialog = new CreatePostDialogFragment();
 		Bundle args = new Bundle();
 		args.putString("groupSlug", groupSlug);
 		args.putString("conversationId", conversationId);
+		args.putString("inReplyToId", inReplyToId);
 		dialog.setArguments(args);
 		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		groupSlug = getArguments().getString("groupSlug");
-		conversationId = getArguments().getString("conversationId");
-
-		the86 = ((PodroidApplication) getActivity().getApplicationContext())
-				.getThe86();
+		setupFragment();
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.create_post_dialog, null);
 		final EditText content = (EditText) view
 				.findViewById(R.id.create_post_content);
-		
+
 		builder.setView(view)
 				.setPositiveButton("post",
 						new DialogInterface.OnClickListener() {
@@ -61,6 +64,16 @@ public class CreatePostDialogFragment extends DialogFragment {
 						});
 
 		return builder.create();
+	}
+
+	private void setupFragment() {
+		Bundle args = getArguments();
+		groupSlug = args.getString("groupSlug");
+		conversationId = args.getString("conversationId");
+		inReplyToId = args.getString("inReplyToId");
+
+		the86 = ((PodroidApplication) getActivity().getApplicationContext())
+				.getThe86();
 	}
 
 	class CreatePostTask extends AsyncTask<String, Void, Post> {
@@ -81,7 +94,8 @@ public class CreatePostDialogFragment extends DialogFragment {
 		protected Post doInBackground(String... params) {
 			String content = params[0];
 			try {
-				return the86.createPost(groupSlug, conversationId, content);
+				return the86.createPost(groupSlug, conversationId, content,
+						inReplyToId);
 			} catch (The86Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

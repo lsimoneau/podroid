@@ -18,5 +18,6 @@
     <string name="like_post">Like</string>
     <string name="create_conversation_hint">Start a new discussion</string>
     <string name="create_post_hint">Write a response</string>
+    <string name="reply_to_post">Reply</string>
 
 </resources>

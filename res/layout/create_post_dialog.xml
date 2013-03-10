@@ -17,7 +17,6 @@
         android:lines="4" >
 
         <requestFocus />
-
     </EditText>
 
 </LinearLayout>
