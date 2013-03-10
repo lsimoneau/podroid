@@ -1,5 +1,6 @@
 package com.podling.podroid.group;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.the86.exception.The86Exception;
@@ -25,13 +26,17 @@ import com.podling.podroid.posts.PostsActivity;
 public class GroupConversationsFragment extends GroupFragment {
 	private LinearLayout progress;
 	private boolean fetched = false;
+	private boolean allowRefresh = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		setListAdapter(new ConversationAdapter(getActivity(),
+				new ArrayList<Conversation>()));
 	}
 
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Conversation conversation = (Conversation) getListAdapter().getItem(
@@ -52,6 +57,8 @@ public class GroupConversationsFragment extends GroupFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.group_conversations_menu, menu);
+		MenuItem refresh = menu.findItem(R.id.refresh_conversations_menu_item);
+		refresh.setEnabled(allowRefresh);
 	}
 
 	@Override
@@ -61,8 +68,7 @@ public class GroupConversationsFragment extends GroupFragment {
 					.newInstance(groupSlug);
 			FragmentManager fragmentManager = getFragmentManager();
 			dialog.show(fragmentManager, "create_conversation");
-		} else if (fetched
-				&& item.getItemId() == R.id.refresh_conversations_menu_item) {
+		} else if (item.getItemId() == R.id.refresh_conversations_menu_item) {
 			fetchConversations();
 		}
 		return true;
@@ -76,24 +82,31 @@ public class GroupConversationsFragment extends GroupFragment {
 		}
 	}
 
-	public void fetchConversations() {
-		getListView().setVisibility(View.GONE);
+	private void fetchConversations() {
+		setRefreshable(false);
+		((ConversationAdapter) getListAdapter()).clear();
 		new RetrieveConversationsTask().execute();
 	}
 
 	private void populate(List<Conversation> conversations) {
-		setListAdapter(new ConversationAdapter(getActivity(), conversations));
-		getListView().setVisibility(View.VISIBLE);
+		((ConversationAdapter) getListAdapter()).addAll(conversations);
+		setRefreshable(true);
+	}
+
+	private void setRefreshable(boolean allowRefresh) {
+		this.allowRefresh = allowRefresh;
+		getActivity().invalidateOptionsMenu();
 	}
 
 	class RetrieveConversationsTask extends
 			AsyncTask<Void, Void, List<Conversation>> {
-
+		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			progress.setVisibility(View.VISIBLE);
 		}
 
+		@Override
 		protected List<Conversation> doInBackground(Void... params) {
 			try {
 				return the86.getGroupConversations(groupSlug);
@@ -104,6 +117,7 @@ public class GroupConversationsFragment extends GroupFragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(List<Conversation> conversations) {
 			populate(conversations);
 			fetched = true;

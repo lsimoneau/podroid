@@ -19,19 +19,19 @@ public class GroupActivity extends Activity {
 		intent.putExtra("groupName", group.getName());
 		return intent;
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getIntent().getExtras();
 
 		String groupName = extras.getString("groupName");
-		
+
 		ActionBar actionBar = getActionBar();
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setTitle(groupName);
-		
+
 		Tab tab = actionBar
 				.newTab()
 				.setText("conversations")
@@ -40,14 +40,13 @@ public class GroupActivity extends Activity {
 								"conversations",
 								GroupConversationsFragment.class, extras));
 		actionBar.addTab(tab);
-		
-		 tab = actionBar
-					.newTab()
-					.setText("members")
-					.setTabListener(
-							new TabListener<GroupMembersFragment>(this,
-									"members",
-									GroupMembersFragment.class, extras));
-			actionBar.addTab(tab);
+
+		tab = actionBar
+				.newTab()
+				.setText("members")
+				.setTabListener(
+						new TabListener<GroupMembersFragment>(this, "members",
+								GroupMembersFragment.class, extras));
+		actionBar.addTab(tab);
 	}
 }

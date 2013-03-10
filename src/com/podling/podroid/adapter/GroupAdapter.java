@@ -15,22 +15,36 @@ import android.widget.TextView;
 import com.podling.podroid.R;
 
 public class GroupAdapter extends ArrayAdapter<Group> {
+	private static final int LAYOUT = R.layout.group;
 	private final Activity context;
 
 	public GroupAdapter(Activity context, List<Group> groups) {
-		super(context, R.layout.group, groups);
+		super(context, LAYOUT, groups);
 		this.context = context;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.group, null);
+		GroupViewHolder holder;
 
-		TextView groupName = (TextView) view.findViewById(R.id.group_name);
-		groupName.setText(getItem(position).getName());
+		if (convertView == null) {
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(LAYOUT, null);
+			holder = new GroupViewHolder();
+			holder.groupName = (TextView) convertView
+					.findViewById(R.id.group_name);
+			convertView.setTag(holder);
+		} else {
+			holder = (GroupViewHolder) convertView.getTag();
+		}
 
-		return view;
+		holder.groupName.setText(getItem(position).getName());
+
+		return convertView;
+	}
+
+	static class GroupViewHolder {
+		TextView groupName;
 	}
 }

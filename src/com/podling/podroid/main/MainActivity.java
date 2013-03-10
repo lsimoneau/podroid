@@ -19,6 +19,7 @@ import android.os.Environment;
 import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.util.TabListener;
+import com.podling.podroid.util.The86Util;
 
 public class MainActivity extends Activity {
 
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		the86 = ((PodroidApplication) getApplicationContext()).getThe86();
+		the86 = The86Util.get(this);
 
 		if (!tabsSetup && the86 != null) {
 			createTabs();
