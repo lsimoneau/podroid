@@ -71,6 +71,13 @@ public class PostsActivity extends ListActivity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.post_context_menu, menu);
+
+		Post post = (Post) getListAdapter().getItem(
+				((AdapterContextMenuInfo) menuInfo).position);
+		int likeText = (post.likeForUser(the86.getUserId()) == null) ? R.string.like_post
+				: R.string.unlike_post;
+
+		menu.findItem(R.id.post_context_menu_like).setTitle(likeText);
 	}
 
 	@Override
@@ -119,11 +126,11 @@ public class PostsActivity extends ListActivity {
 		@Override
 		protected Like doInBackground(Post... params) {
 			Post post = params[0];
-			boolean liked = false;
 			try {
-				if (liked) {
-					// the86.unlikePost(groupSlug, conversationId,
-					// post.getId());
+				Like userLike = post.likeForUser(the86.getUserId());
+				if (userLike != null) {
+					the86.unlikePost(groupSlug, conversationId, post.getId(),
+							userLike.getId());
 				} else {
 					return the86.likePost(groupSlug, conversationId,
 							post.getId());

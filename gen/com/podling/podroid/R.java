@@ -80,11 +80,11 @@ public final class R {
         public static final int authentication_email_hint=0x7f040007;
         public static final int authentication_login=0x7f040006;
         public static final int authentication_password_hint=0x7f040008;
-        public static final int create_conversation_hint=0x7f04000f;
+        public static final int create_conversation_hint=0x7f040010;
         public static final int create_group_submit=0x7f04000d;
         public static final int create_pod=0x7f04000b;
         public static final int create_pod_hint=0x7f04000c;
-        public static final int create_post_hint=0x7f040010;
+        public static final int create_post_hint=0x7f040011;
         public static final int like_post=0x7f04000e;
         public static final int logo_description=0x7f040009;
         public static final int menu_settings=0x7f040001;
@@ -92,8 +92,9 @@ public final class R {
         public static final int no_group_members=0x7f040004;
         public static final int no_groups=0x7f040002;
         public static final int no_posts=0x7f040005;
-        public static final int reply_to_post=0x7f040011;
+        public static final int reply_to_post=0x7f040012;
         public static final int tagline=0x7f04000a;
+        public static final int unlike_post=0x7f04000f;
     }
     public static final class style {
         /** 
