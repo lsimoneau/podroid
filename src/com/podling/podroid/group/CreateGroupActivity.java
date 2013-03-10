@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
-import com.podling.podroid.R.id;
-import com.podling.podroid.R.layout;
 
 public class CreateGroupActivity extends Activity {
 	private EditText groupNameEdit;

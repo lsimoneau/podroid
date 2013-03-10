@@ -57,6 +57,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
+            android:fontFamily="sans-serif"
             android:hint="@string/authentication_password_hint"
             android:inputType="textPassword"
             android:padding="10dip"

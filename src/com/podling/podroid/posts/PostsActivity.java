@@ -8,18 +8,21 @@ import org.the86.model.Conversation;
 import org.the86.model.Like;
 import org.the86.model.Post;
 
+import android.app.FragmentManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
 
+import com.podling.podroid.CreatePostDialogFragment;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.PostsAdapter;
@@ -82,6 +85,24 @@ public class PostsActivity extends ListActivity {
 		default:
 			return super.onContextItemSelected(item);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = new MenuInflater(this);
+		inflater.inflate(R.menu.posts_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.menu_create_post) {
+			CreatePostDialogFragment dialog = CreatePostDialogFragment
+					.newInstance(groupSlug, conversationId);
+			FragmentManager fragmentManager = getFragmentManager();
+			dialog.show(fragmentManager, "create_post");
+		}
+		return true;
 	}
 
 	private void populate(List<Post> posts) {

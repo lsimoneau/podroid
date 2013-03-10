@@ -7,7 +7,7 @@ import com.podling.podroid.PodroidApplication;
 import android.app.ListFragment;
 import android.os.Bundle;
 
-public class GroupFragment extends ListFragment {
+public abstract class GroupFragment extends ListFragment {
 	protected The86 the86;
 	protected String groupSlug;
 
