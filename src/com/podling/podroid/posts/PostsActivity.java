@@ -59,7 +59,7 @@ public class PostsActivity extends ListActivity {
 
 		progress = (LinearLayout) findViewById(R.id.posts_loading_progress);
 
-		new RetrievePostsTask().execute();
+		fetchPosts();
 
 		// getListView().setItemsCanFocus(true);
 		registerForContextMenu(getListView());
@@ -113,12 +113,20 @@ public class PostsActivity extends ListActivity {
 					.newInstance(groupSlug, conversationId);
 			FragmentManager fragmentManager = getFragmentManager();
 			dialog.show(fragmentManager, "create_post");
+		} else if (item.getItemId() == R.id.refresh_posts_menu_item) {
+			fetchPosts();
 		}
 		return true;
 	}
 
+	private void fetchPosts() {
+		getListView().setVisibility(View.GONE);
+		new RetrievePostsTask().execute();
+	}
+
 	private void populate(List<Post> posts) {
 		setListAdapter(new PostsAdapter(this, posts));
+		getListView().setVisibility(View.VISIBLE);
 	}
 
 	class TogglePostLikeTask extends AsyncTask<Post, Void, Like> {

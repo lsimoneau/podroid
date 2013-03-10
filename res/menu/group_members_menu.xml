@@ -2,12 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_create_post"
-        android:icon="@drawable/ic_menu_compose"
-        android:showAsAction="ifRoom|withText"
-        android:title="reply"/>
-    <item
-        android:id="@+id/refresh_posts_menu_item"
+        android:id="@+id/refresh_group_members_menu_item"
         android:icon="@drawable/ic_menu_refresh"
         android:showAsAction="ifRoom"
         android:title="refresh"/>

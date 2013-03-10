@@ -46,11 +46,11 @@ public final class R {
         public static final int header=0x7f070000;
         public static final int menu_create_conversation=0x7f07002a;
         public static final int menu_create_group=0x7f07002b;
-        public static final int menu_create_post=0x7f07002f;
+        public static final int menu_create_post=0x7f070030;
         public static final int podling_logo=0x7f070001;
         public static final int post_content=0x7f07001e;
-        public static final int post_context_menu_like=0x7f07002d;
-        public static final int post_context_menu_reply=0x7f07002e;
+        public static final int post_context_menu_like=0x7f07002e;
+        public static final int post_context_menu_reply=0x7f07002f;
         public static final int post_likes=0x7f07001f;
         public static final int post_status=0x7f07001d;
         public static final int post_user_avatar=0x7f07001b;
@@ -58,7 +58,9 @@ public final class R {
         public static final int posts_loading_progress=0x7f070020;
         public static final int posts_loading_progress_bar=0x7f070021;
         public static final int refresh_conversations_menu_item=0x7f070029;
+        public static final int refresh_group_members_menu_item=0x7f07002d;
         public static final int refresh_groups_menu_item=0x7f07002c;
+        public static final int refresh_posts_menu_item=0x7f070031;
         public static final int user_avatar=0x7f070024;
         public static final int user_loading_progress=0x7f070022;
         public static final int user_loading_progress_bar=0x7f070023;
@@ -86,8 +88,9 @@ public final class R {
         public static final int conversations_menu=0x7f060000;
         public static final int group_conversations_menu=0x7f060001;
         public static final int group_list_menu=0x7f060002;
-        public static final int post_context_menu=0x7f060003;
-        public static final int posts_menu=0x7f060004;
+        public static final int group_members_menu=0x7f060003;
+        public static final int post_context_menu=0x7f060004;
+        public static final int posts_menu=0x7f060005;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

@@ -24,12 +24,11 @@ import com.podling.podroid.posts.PostsActivity;
 
 public class GroupConversationsFragment extends GroupFragment {
 	private LinearLayout progress;
-	private boolean fetched;
+	private boolean fetched = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		fetched = false;
 		setHasOptionsMenu(true);
 	}
 

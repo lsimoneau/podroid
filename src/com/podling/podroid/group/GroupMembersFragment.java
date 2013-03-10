@@ -8,6 +8,9 @@ import org.the86.model.User;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -20,6 +23,12 @@ public class GroupMembersFragment extends GroupFragment {
 	private boolean fetched = false;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.group_members, container, false);
@@ -29,12 +38,12 @@ public class GroupMembersFragment extends GroupFragment {
 	}
 
 	// TODO api doesn't support fetching individual users
-//	@Override
-//	public void onListItemClick(ListView l, View v, int position, long id) {
-//		super.onListItemClick(l, v, position, id);
-//		 User user = (User) getListAdapter().getItem(position);
-//		 startActivity(UserActivity.newInstance(getActivity(), user.getId()));
-//	}
+	// @Override
+	// public void onListItemClick(ListView l, View v, int position, long id) {
+	// super.onListItemClick(l, v, position, id);
+	// User user = (User) getListAdapter().getItem(position);
+	// startActivity(UserActivity.newInstance(getActivity(), user.getId()));
+	// }
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,6 +51,19 @@ public class GroupMembersFragment extends GroupFragment {
 		if (!fetched) {
 			fetchMembers();
 		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.group_members_menu, menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (fetched && item.getItemId() == R.id.refresh_group_members_menu_item) {
+			fetchMembers();
+		}
+		return true;
 	}
 
 	private void fetchMembers() {
@@ -73,6 +95,7 @@ public class GroupMembersFragment extends GroupFragment {
 
 		protected void onPostExecute(List<User> users) {
 			populate(users);
+			fetched = true;
 			progress.setVisibility(View.GONE);
 		}
 	}
