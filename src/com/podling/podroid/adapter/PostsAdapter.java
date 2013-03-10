@@ -41,8 +41,13 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 		TextView name = (TextView) view.findViewById(R.id.post_user_name);
 		name.setText(post.getUser().getName());
 
-		TextView createdAt = (TextView) view.findViewById(R.id.post_created_at);
-		createdAt.setText(new TimeAgo().timeAgo(post.getCreatedAt()));
+		TextView statusTxt = (TextView) view.findViewById(R.id.post_status);
+		String status = new TimeAgo().timeAgo(post.getCreatedAt());
+		if (post.getInReplyToId() != null) {
+			status = String.format("%s in reply to %s", status, post
+					.getInReplyTo().getUser().getName());
+		}
+		statusTxt.setText(status);
 
 		HtmlTextView content = (HtmlTextView) view
 				.findViewById(R.id.post_content);

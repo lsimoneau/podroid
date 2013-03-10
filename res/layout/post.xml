@@ -25,13 +25,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/post_in_reply_to"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/post_created_at"
+            android:id="@+id/post_status"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 

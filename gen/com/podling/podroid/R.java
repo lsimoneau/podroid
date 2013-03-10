@@ -39,21 +39,20 @@ public final class R {
         public static final int groups_loading_progress=0x7f070017;
         public static final int groups_loading_progress_bar=0x7f070018;
         public static final int header=0x7f070000;
-        public static final int menu_create_conversation=0x7f070022;
-        public static final int menu_create_group=0x7f070023;
-        public static final int menu_create_post=0x7f070026;
-        public static final int menu_new=0x7f070021;
+        public static final int menu_create_conversation=0x7f070021;
+        public static final int menu_create_group=0x7f070022;
+        public static final int menu_create_post=0x7f070025;
+        public static final int menu_new=0x7f070020;
         public static final int podling_logo=0x7f070001;
-        public static final int post_content=0x7f07001d;
-        public static final int post_context_menu_like=0x7f070024;
-        public static final int post_context_menu_reply=0x7f070025;
-        public static final int post_created_at=0x7f07001c;
-        public static final int post_in_reply_to=0x7f07001b;
-        public static final int post_likes=0x7f07001e;
+        public static final int post_content=0x7f07001c;
+        public static final int post_context_menu_like=0x7f070023;
+        public static final int post_context_menu_reply=0x7f070024;
+        public static final int post_likes=0x7f07001d;
+        public static final int post_status=0x7f07001b;
         public static final int post_user_avatar=0x7f070019;
         public static final int post_user_name=0x7f07001a;
-        public static final int posts_loading_progress=0x7f07001f;
-        public static final int posts_loading_progress_bar=0x7f070020;
+        public static final int posts_loading_progress=0x7f07001e;
+        public static final int posts_loading_progress_bar=0x7f07001f;
     }
     public static final class layout {
         public static final int authentication=0x7f030000;
