@@ -43,8 +43,6 @@ public class AuthenticationActivity extends Activity {
 		passwordEdit = ((EditText) findViewById(R.id.authentication_password));
 
 		Button button = (Button) findViewById(R.id.btnLogin);
-
-		Button button = (Button) findViewById(R.id.btnLogin);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				new AuthenticateTask(v.getContext()).execute();
@@ -102,7 +100,7 @@ public class AuthenticationActivity extends Activity {
 				// success!
 				authSuccess(authorization);
 			} else {
-				Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT)
+				Toast.makeText(context, "Incorrect username or password :(", Toast.LENGTH_SHORT)
 						.show();
 			}
 		}
