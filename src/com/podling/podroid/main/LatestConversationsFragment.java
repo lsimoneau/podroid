@@ -16,15 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
 import com.podling.podroid.loader.ConversationsLoader;
+import com.podling.podroid.loader.LoaderResult;
 import com.podling.podroid.posts.PostsActivity;
 
 public class LatestConversationsFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<List<Conversation>> {
+		LoaderManager.LoaderCallbacks<LoaderResult<List<Conversation>>> {
 	private LinearLayout progress;
 	private ConversationAdapter mAdapter;
 	private boolean allowRefresh = false;
@@ -76,20 +78,26 @@ public class LatestConversationsFragment extends ListFragment implements
 	}
 
 	@Override
-	public Loader<List<Conversation>> onCreateLoader(int id, Bundle args) {
+	public Loader<LoaderResult<List<Conversation>>> onCreateLoader(int id,
+			Bundle args) {
 		return new ConversationsLoader(getActivity());
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<Conversation>> loader,
-			List<Conversation> conversations) {
-		mAdapter.setData(conversations);
+	public void onLoadFinished(Loader<LoaderResult<List<Conversation>>> loader,
+			LoaderResult<List<Conversation>> result) {
+		Exception e = result.getException();
+		if (e != null) {
+			Toast.makeText(getActivity(), R.string.error_conversation_load,
+					Toast.LENGTH_SHORT).show();
+		}
+		mAdapter.setData(result.getData());
 		progress.setVisibility(View.GONE);
 		setRefreshable(true);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<Conversation>> loader) {
+	public void onLoaderReset(Loader<LoaderResult<List<Conversation>>> loader) {
 		mAdapter.setData(null);
 	}
 

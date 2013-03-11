@@ -8,7 +8,7 @@ import org.the86.model.Conversation;
 import android.content.Context;
 
 public class ConversationsLoader extends
-		The86AsyncTaskLoader<List<Conversation>> {
+		The86AsyncTaskLoader<LoaderResult<List<Conversation>>> {
 	private List<Conversation> mConversations;
 	private String groupSlug;
 
@@ -22,30 +22,25 @@ public class ConversationsLoader extends
 	}
 
 	@Override
-	public List<Conversation> loadInBackground() {
+	public LoaderResult<List<Conversation>> loadInBackground() {
 		try {
 			if (groupSlug != null) {
 				mConversations = getThe86().getGroupConversations(groupSlug);
 			} else {
 				mConversations = getThe86().getUserConversations();
 			}
-			return mConversations;
+			return new LoaderResult<List<Conversation>>(mConversations);
 		} catch (The86Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new LoaderResult<List<Conversation>>(e);
 		}
-		return null;
 	}
 
 	@Override
 	protected void onStartLoading() {
 		if (mConversations != null) {
-			// If we currently have a result available, deliver it
-			// immediately.
-			deliverResult(mConversations);
+			deliverResult(new LoaderResult<List<Conversation>>(mConversations));
 		} else {
 			forceLoad();
 		}
 	}
-
 }

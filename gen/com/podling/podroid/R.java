@@ -101,6 +101,7 @@ public final class R {
         public static final int create_pod=0x7f04000b;
         public static final int create_pod_hint=0x7f04000c;
         public static final int create_post_hint=0x7f040011;
+        public static final int error_conversation_load=0x7f040014;
         public static final int like_post=0x7f04000e;
         public static final int logo_description=0x7f040009;
         public static final int menu_settings=0x7f040001;

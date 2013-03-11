@@ -100,8 +100,8 @@ public class AuthenticationActivity extends Activity {
 				// success!
 				authSuccess(authorization);
 			} else {
-				Toast.makeText(context, "Incorrect username or password :(", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(context, "Incorrect username or password :(",
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 
