@@ -23,5 +23,7 @@
     <string name="user_avatar_description">user_avatar_description</string>
     <string name="error_conversation_load">Coulnd\'t load conversations</string>
     <string name="error_groups_load">Couldn\'t load groups</string>
+    <string name="error_group_members_load">Couldn\'t load group members</string>
+    <string name="error_posts_load">Couldn\'t load posts</string>
 
 </resources>

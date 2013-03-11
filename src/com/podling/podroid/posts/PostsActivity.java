@@ -24,15 +24,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.PostsAdapter;
+import com.podling.podroid.loader.LoaderResult;
 import com.podling.podroid.loader.PostsLoader;
 import com.podling.podroid.util.The86Util;
 
 public class PostsActivity extends ListActivity implements
-		LoaderManager.LoaderCallbacks<List<Post>> {
+		LoaderManager.LoaderCallbacks<LoaderResult<List<Post>>> {
 	private The86 the86;
 	private LinearLayout progress;
 	private PostsAdapter mAdapter;
@@ -76,7 +78,6 @@ public class PostsActivity extends ListActivity implements
 				PodroidApplication.GROUP_MEMBERS_LOADER_ID, loaderArguments(),
 				this);
 
-		// getListView().setItemsCanFocus(true);
 		registerForContextMenu(getListView());
 	}
 
@@ -137,20 +138,26 @@ public class PostsActivity extends ListActivity implements
 	}
 
 	@Override
-	public Loader<List<Post>> onCreateLoader(int id, Bundle args) {
+	public Loader<LoaderResult<List<Post>>> onCreateLoader(int id, Bundle args) {
 		return new PostsLoader(this, args.getString("groupSlug"),
 				args.getString("conversationId"));
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<Post>> loader, List<Post> members) {
-		mAdapter.setData(members);
+	public void onLoadFinished(Loader<LoaderResult<List<Post>>> loader,
+			LoaderResult<List<Post>> result) {
+		Exception e = result.getException();
+		if (e != null) {
+			Toast.makeText(this, R.string.error_posts_load, Toast.LENGTH_SHORT)
+					.show();
+		}
+		mAdapter.setData(result.getData());
 		progress.setVisibility(View.GONE);
 		setRefreshable(true);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<Post>> loader) {
+	public void onLoaderReset(Loader<LoaderResult<List<Post>>> loader) {
 		mAdapter.setData(null);
 	}
 

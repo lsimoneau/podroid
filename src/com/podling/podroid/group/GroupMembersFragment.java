@@ -14,14 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.GroupMembershipAdapter;
 import com.podling.podroid.loader.GroupMembersLoader;
+import com.podling.podroid.loader.LoaderResult;
 
 public class GroupMembersFragment extends GroupFragment implements
-		LoaderManager.LoaderCallbacks<List<User>> {
+		LoaderManager.LoaderCallbacks<LoaderResult<List<User>>> {
 	private LinearLayout progress;
 	private GroupMembershipAdapter mAdapter;
 	private boolean allowRefresh = false;
@@ -66,20 +68,26 @@ public class GroupMembersFragment extends GroupFragment implements
 	}
 
 	@Override
-	public Loader<List<User>> onCreateLoader(int id, Bundle args) {
+	public Loader<LoaderResult<List<User>>> onCreateLoader(int id, Bundle args) {
 		return new GroupMembersLoader(getActivity(),
 				args.getString("groupSlug"));
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<User>> loader, List<User> members) {
-		mAdapter.setData(members);
+	public void onLoadFinished(Loader<LoaderResult<List<User>>> loader,
+			LoaderResult<List<User>> result) {
+		Exception e = result.getException();
+		if (e != null) {
+			Toast.makeText(getActivity(), R.string.error_group_members_load,
+					Toast.LENGTH_SHORT).show();
+		}
+		mAdapter.setData(result.getData());
 		progress.setVisibility(View.GONE);
 		setRefreshable(true);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<User>> loader) {
+	public void onLoaderReset(Loader<LoaderResult<List<User>>> loader) {
 		mAdapter.setData(null);
 	}
 

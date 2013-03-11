@@ -7,10 +7,10 @@ import org.the86.model.Post;
 
 import android.content.Context;
 
-public class PostsLoader extends The86AsyncTaskLoader<List<Post>> {
+public class PostsLoader extends The86AsyncTaskLoader<LoaderResult<List<Post>>> {
 	private List<Post> mPosts;
-	private String groupSlug;
-	private String conversationId;
+	private final String groupSlug;
+	private final String conversationId;
 
 	public PostsLoader(Context context, String groupSlug, String conversationId) {
 		super(context);
@@ -19,24 +19,19 @@ public class PostsLoader extends The86AsyncTaskLoader<List<Post>> {
 	}
 
 	@Override
-	public List<Post> loadInBackground() {
+	public LoaderResult<List<Post>> loadInBackground() {
 		try {
 			mPosts = getThe86().getConversationPosts(groupSlug, conversationId);
-
-			return mPosts;
+			return new LoaderResult<List<Post>>(mPosts);
 		} catch (The86Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new LoaderResult<List<Post>>(e);
 		}
-		return null;
 	}
 
 	@Override
 	protected void onStartLoading() {
 		if (mPosts != null) {
-			// If we currently have a result available, deliver it
-			// immediately.
-			deliverResult(mPosts);
+			deliverResult(new LoaderResult<List<Post>>(mPosts));
 		} else {
 			forceLoad();
 		}

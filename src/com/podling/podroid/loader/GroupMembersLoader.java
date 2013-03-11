@@ -7,8 +7,9 @@ import org.the86.model.User;
 
 import android.content.Context;
 
-public class GroupMembersLoader extends The86AsyncTaskLoader<List<User>> {
-	private String groupSlug;
+public class GroupMembersLoader extends
+		The86AsyncTaskLoader<LoaderResult<List<User>>> {
+	private final String groupSlug;
 	private List<User> mUsers;
 
 	public GroupMembersLoader(Context context, String groupSlug) {
@@ -17,23 +18,19 @@ public class GroupMembersLoader extends The86AsyncTaskLoader<List<User>> {
 	}
 
 	@Override
-	public List<User> loadInBackground() {
+	public LoaderResult<List<User>> loadInBackground() {
 		try {
 			mUsers = getThe86().getGroupMemberships(groupSlug);
-			return mUsers;
+			return new LoaderResult<List<User>>(mUsers);
 		} catch (The86Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new LoaderResult<List<User>>(e);
 		}
-		return null;
 	}
 
 	@Override
 	protected void onStartLoading() {
 		if (mUsers != null) {
-			// If we currently have a result available, deliver it
-			// immediately.
-			deliverResult(mUsers);
+			deliverResult(new LoaderResult<List<User>>(mUsers));
 		} else {
 			forceLoad();
 		}
