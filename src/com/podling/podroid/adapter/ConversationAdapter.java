@@ -55,7 +55,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 			holder.groupName = (TextView) convertView
 					.findViewById(R.id.conversation_group_name);
 			holder.bumpedAt = (TextView) convertView
-					.findViewById(R.id.conversation_group_name);
+					.findViewById(R.id.conversation_bumped_at);
 			holder.replies = (TextView) convertView
 					.findViewById(R.id.conversation_replies);
 			holder.likes = (TextView) convertView
