@@ -22,5 +22,6 @@
     <string name="reply_to_post">Reply</string>
     <string name="user_avatar_description">user_avatar_description</string>
     <string name="error_conversation_load">Coulnd\'t load conversations</string>
+    <string name="error_groups_load">Couldn\'t load groups</string>
 
 </resources>

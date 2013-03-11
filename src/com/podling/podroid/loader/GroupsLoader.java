@@ -7,7 +7,8 @@ import org.the86.model.Group;
 
 import android.content.Context;
 
-public class GroupsLoader extends The86AsyncTaskLoader<List<Group>> {
+public class GroupsLoader extends
+		The86AsyncTaskLoader<LoaderResult<List<Group>>> {
 	private List<Group> mGroups;
 
 	public GroupsLoader(Context context) {
@@ -15,15 +16,13 @@ public class GroupsLoader extends The86AsyncTaskLoader<List<Group>> {
 	}
 
 	@Override
-	public List<Group> loadInBackground() {
+	public LoaderResult<List<Group>> loadInBackground() {
 		try {
 			mGroups = getThe86().getGroups();
-			return mGroups;
+			return new LoaderResult<List<Group>>(mGroups);
 		} catch (The86Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new LoaderResult<List<Group>>(e);
 		}
-		return null;
 	}
 
 	@Override
@@ -31,7 +30,7 @@ public class GroupsLoader extends The86AsyncTaskLoader<List<Group>> {
 		if (mGroups != null) {
 			// If we currently have a result available, deliver it
 			// immediately.
-			deliverResult(mGroups);
+			deliverResult(new LoaderResult<List<Group>>(mGroups));
 		} else {
 			forceLoad();
 		}

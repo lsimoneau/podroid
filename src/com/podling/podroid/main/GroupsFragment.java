@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
@@ -24,9 +25,10 @@ import com.podling.podroid.adapter.GroupAdapter;
 import com.podling.podroid.group.CreateGroupDialogFragment;
 import com.podling.podroid.group.GroupActivity;
 import com.podling.podroid.loader.GroupsLoader;
+import com.podling.podroid.loader.LoaderResult;
 
 public class GroupsFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<List<Group>> {
+		LoaderManager.LoaderCallbacks<LoaderResult<List<Group>>> {
 	private LinearLayout progress;
 	private GroupAdapter mAdapter;
 	private boolean allowRefresh = false;
@@ -83,20 +85,25 @@ public class GroupsFragment extends ListFragment implements
 	}
 
 	@Override
-	public Loader<List<Group>> onCreateLoader(int id, Bundle args) {
+	public Loader<LoaderResult<List<Group>>> onCreateLoader(int id, Bundle args) {
 		return new GroupsLoader(getActivity());
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<Group>> loader,
-			List<Group> conversations) {
-		mAdapter.setData(conversations);
+	public void onLoadFinished(Loader<LoaderResult<List<Group>>> loader,
+			LoaderResult<List<Group>> result) {
+		Exception e = result.getException();
+		if (e != null) {
+			Toast.makeText(getActivity(), R.string.error_groups_load,
+					Toast.LENGTH_SHORT).show();
+		}
+		mAdapter.setData(result.getData());
 		progress.setVisibility(View.GONE);
 		setRefreshable(true);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<Group>> loader) {
+	public void onLoaderReset(Loader<LoaderResult<List<Group>>> loader) {
 		mAdapter.setData(null);
 	}
 
