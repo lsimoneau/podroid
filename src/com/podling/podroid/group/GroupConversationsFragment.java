@@ -88,7 +88,7 @@ public class GroupConversationsFragment extends GroupFragment implements
 	@Override
 	public Loader<LoaderResult<List<Conversation>>> onCreateLoader(int id,
 			Bundle args) {
-		return new ConversationsLoader(getActivity());
+		return new ConversationsLoader(getActivity(), args.getString("groupSlug"));
 	}
 
 	@Override
