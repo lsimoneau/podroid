@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 
 import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
@@ -79,8 +78,6 @@ public class MainActivity extends Activity {
 	}
 
 	public void createTabs() {
-		actionBar.removeAllTabs();
-		Log.d("MA", "creating tabs");
 		latest = actionBar
 				.newTab()
 				.setText("latest")

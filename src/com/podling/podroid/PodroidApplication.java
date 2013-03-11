@@ -11,7 +11,8 @@ public class PodroidApplication extends Application {
 
 	public static final int LATEST_CONVERSATIONS_LOADER_ID = 0;
 	public static final int GROUPS_LOADER_ID = 1;
-	public static final int GROUP_CONVERSATIONS_LOADER_ID = 1;
+	public static final int GROUP_CONVERSATIONS_LOADER_ID = 2;
+	public static final int GROUP_MEMBERS_LOADER_ID = 3;
 	
 	private The86 the86;
 	private BitmapLruCache diskLruCache = null;

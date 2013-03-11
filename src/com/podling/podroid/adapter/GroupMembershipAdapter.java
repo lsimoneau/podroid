@@ -21,8 +21,8 @@ public class GroupMembershipAdapter extends ArrayAdapter<User> {
 	private static final int LAYOUT = R.layout.group_member;
 	private final Activity context;
 
-	public GroupMembershipAdapter(Activity context, List<User> memberships) {
-		super(context, LAYOUT, memberships);
+	public GroupMembershipAdapter(Activity context) {
+		super(context, LAYOUT);
 		this.context = context;
 	}
 
@@ -63,6 +63,13 @@ public class GroupMembershipAdapter extends ArrayAdapter<User> {
 		}
 
 		return convertView;
+	}
+
+	public void setData(List<User> data) {
+		clear();
+		if (data != null) {
+			addAll(data);
+		}
 	}
 
 	static class GroupMembershipViewHolder extends AvatarViewHolder {

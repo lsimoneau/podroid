@@ -1,12 +1,11 @@
 package com.podling.podroid.group;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.the86.exception.The86Exception;
 import org.the86.model.User;
 
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,21 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.GroupMembershipAdapter;
+import com.podling.podroid.loader.GroupMembersLoader;
 
-public class GroupMembersFragment extends GroupFragment {
+public class GroupMembersFragment extends GroupFragment implements
+		LoaderManager.LoaderCallbacks<List<User>> {
 	private LinearLayout progress;
-	private boolean fetched = false;
+	private GroupMembershipAdapter mAdapter;
 	private boolean allowRefresh = false;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-		setListAdapter(new GroupMembershipAdapter(getActivity(),
-				new ArrayList<User>()));
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,20 +35,19 @@ public class GroupMembersFragment extends GroupFragment {
 		return v;
 	}
 
-	// TODO api doesn't support fetching individual users
-	// @Override
-	// public void onListItemClick(ListView l, View v, int position, long id) {
-	// super.onListItemClick(l, v, position, id);
-	// User user = (User) getListAdapter().getItem(position);
-	// startActivity(UserActivity.newInstance(getActivity(), user.getId()));
-	// }
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (!fetched) {
-			fetchMembers();
-		}
+		setHasOptionsMenu(true);
+
+		mAdapter = new GroupMembershipAdapter(getActivity());
+		setListAdapter(mAdapter);
+
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		getLoaderManager().initLoader(
+				PodroidApplication.GROUP_MEMBERS_LOADER_ID, loaderArguments(),
+				this);
 	}
 
 	@Override
@@ -67,20 +60,27 @@ public class GroupMembersFragment extends GroupFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.refresh_group_members_menu_item) {
-			fetchMembers();
+			refreshData();
 		}
 		return true;
 	}
 
-	private void fetchMembers() {
-		setRefreshable(false);
-		((GroupMembershipAdapter) getListAdapter()).clear();
-		new RetrieveMembersTask().execute();
+	@Override
+	public Loader<List<User>> onCreateLoader(int id, Bundle args) {
+		return new GroupMembersLoader(getActivity(),
+				args.getString("groupSlug"));
 	}
 
-	private void populate(List<User> memberships) {
-		((GroupMembershipAdapter) getListAdapter()).addAll(memberships);
+	@Override
+	public void onLoadFinished(Loader<List<User>> loader, List<User> members) {
+		mAdapter.setData(members);
+		progress.setVisibility(View.GONE);
 		setRefreshable(true);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<List<User>> loader) {
+		mAdapter.setData(null);
 	}
 
 	private void setRefreshable(boolean allowRefresh) {
@@ -88,27 +88,19 @@ public class GroupMembersFragment extends GroupFragment {
 		getActivity().invalidateOptionsMenu();
 	}
 
-	class RetrieveMembersTask extends AsyncTask<Void, Void, List<User>> {
-
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progress.setVisibility(View.VISIBLE);
-		}
-
-		protected List<User> doInBackground(Void... params) {
-			try {
-				return the86.getGroupMemberships(groupSlug);
-			} catch (The86Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		protected void onPostExecute(List<User> users) {
-			populate(users);
-			fetched = true;
-			progress.setVisibility(View.GONE);
-		}
+	public void refreshData() {
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		mAdapter.setData(null);
+		getLoaderManager().restartLoader(
+				PodroidApplication.GROUP_MEMBERS_LOADER_ID, loaderArguments(),
+				this);
 	}
+
+	private Bundle loaderArguments() {
+		Bundle args = new Bundle();
+		args.putString("groupSlug", groupSlug);
+		return args;
+	}
+
 }

@@ -3,22 +3,24 @@ package com.podling.podroid.loader;
 import java.util.List;
 
 import org.the86.exception.The86Exception;
-import org.the86.model.Group;
+import org.the86.model.User;
 
 import android.content.Context;
 
-public class GroupsLoader extends The86AsyncTaskLoader<List<Group>> {
-	private List<Group> mGroups;
+public class GroupMembersLoader extends The86AsyncTaskLoader<List<User>> {
+	private String groupSlug;
+	private List<User> mUsers;
 
-	public GroupsLoader(Context context) {
+	public GroupMembersLoader(Context context, String groupSlug) {
 		super(context);
+		this.groupSlug = groupSlug;
 	}
 
 	@Override
-	public List<Group> loadInBackground() {
+	public List<User> loadInBackground() {
 		try {
-			mGroups = getThe86().getGroups();
-			return mGroups;
+			mUsers = getThe86().getGroupMemberships(groupSlug);
+			return mUsers;
 		} catch (The86Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -28,10 +30,10 @@ public class GroupsLoader extends The86AsyncTaskLoader<List<Group>> {
 
 	@Override
 	protected void onStartLoading() {
-		if (mGroups != null) {
+		if (mUsers != null) {
 			// If we currently have a result available, deliver it
 			// immediately.
-			deliverResult(mGroups);
+			deliverResult(mUsers);
 		} else {
 			forceLoad();
 		}
