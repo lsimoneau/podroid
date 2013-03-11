@@ -11,6 +11,7 @@ import org.the86.model.Post;
 
 import android.app.FragmentManager;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -91,7 +92,7 @@ public class PostsActivity extends ListActivity {
 		Post post = (Post) getListAdapter().getItem(info.position);
 		switch (item.getItemId()) {
 		case R.id.post_context_menu_like:
-			new TogglePostLikeTask().execute(post);
+			new TogglePostLikeTask(this).execute(post);
 			return true;
 		case R.id.post_context_menu_reply:
 			CreatePostDialogFragment dialog = CreatePostDialogFragment
@@ -142,6 +143,19 @@ public class PostsActivity extends ListActivity {
 	}
 
 	class TogglePostLikeTask extends AsyncTask<Post, Void, Like> {
+		protected ProgressDialog dialog;
+
+		public TogglePostLikeTask(Context context) {
+			dialog = new ProgressDialog(context);
+			dialog.setMessage("creating group");
+			dialog.setCancelable(false);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			dialog.show();
+		}
 
 		@Override
 		protected Like doInBackground(Post... params) {
@@ -162,6 +176,11 @@ public class PostsActivity extends ListActivity {
 			return null;
 		}
 
+		@Override
+		protected void onPostExecute(Like like) {
+			fetchPosts();
+			dialog.hide();
+		}
 	}
 
 	class RetrievePostsTask extends AsyncTask<Void, Void, List<Post>> {
