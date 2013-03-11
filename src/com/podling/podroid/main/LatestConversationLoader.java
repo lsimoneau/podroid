@@ -9,7 +9,6 @@ import org.the86.model.Conversation;
 import android.app.Activity;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.util.Log;
 
 import com.podling.podroid.util.The86Util;
 
@@ -27,7 +26,6 @@ public class LatestConversationLoader extends
 	public List<Conversation> loadInBackground() {
 		try {
 			mConversations = the86.getUserConversations();
-			Log.d("LCL", mConversations.toString());
 			return mConversations;
 		} catch (The86Exception e) {
 			// TODO Auto-generated catch block

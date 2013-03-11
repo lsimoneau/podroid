@@ -15,19 +15,20 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 
 import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.util.TabListener;
-import com.podling.podroid.util.The86Util;
 
 public class MainActivity extends Activity {
 
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 5; // 5 MB
 	private static final String DISK_CACHE_SUBDIR = "thumbnails";
 	private ActionBar actionBar;
-	private boolean tabsSetup = false;
 	private The86 the86;
+	private Tab latest;
+	private Tab groups;
 
 	public static Intent newInstance(Context context) {
 		Intent intent = new Intent(context, MainActivity.class);
@@ -37,9 +38,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setupDiskCache();
-
 		actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -51,24 +50,25 @@ public class MainActivity extends Activity {
 		if (userId == null || userAuthToken == null) {
 			startActivity(AuthenticationActivity.newInstance(this));
 			finish();
-		} else {
-			the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
+			return;
+		}
+		the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
 
-			the86.setAuthorization(userId, userAuthToken);
-			((PodroidApplication) getApplicationContext()).setThe86(the86);
-			createTabs();
+		the86.setAuthorization(userId, userAuthToken);
+		((PodroidApplication) getApplicationContext()).setThe86(the86);
+
+		createTabs();
+
+		if (savedInstanceState != null) {
+			actionBar.setSelectedNavigationItem(savedInstanceState.getInt(
+					"tab", 0));
 		}
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-
-		the86 = The86Util.get(this);
-
-		if (!tabsSetup && the86 != null) {
-			createTabs();
-		}
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
 	}
 
 	private void setupDiskCache() {
@@ -78,25 +78,25 @@ public class MainActivity extends Activity {
 	}
 
 	public void createTabs() {
-
-		Tab tab = actionBar
+		actionBar.removeAllTabs();
+		Log.d("MA", "creating tabs");
+		latest = actionBar
 				.newTab()
 				.setText("latest")
 				.setTabListener(
 						new TabListener<LatestConversationsFragment>(this,
 								"latest", LatestConversationsFragment.class));
-		actionBar.addTab(tab);
-
-		tab = actionBar
+		actionBar.addTab(latest);
+		
+		groups = actionBar
 				.newTab()
 				.setText("pods")
 				.setTabListener(
 						new TabListener<GroupsFragment>(this, "pods",
 								GroupsFragment.class));
-		actionBar.addTab(tab);
-
-		tabsSetup = true;
+		actionBar.addTab(groups);
 	}
+
 
 	class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
 		@Override
