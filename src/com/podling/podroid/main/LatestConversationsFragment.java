@@ -17,8 +17,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
+import com.podling.podroid.loader.LatestConversationLoader;
 import com.podling.podroid.posts.PostsActivity;
 
 public class LatestConversationsFragment extends ListFragment implements
@@ -48,7 +50,9 @@ public class LatestConversationsFragment extends ListFragment implements
 		if (item.getItemId() == R.id.refresh_conversations_menu_item) {
 			progress.setVisibility(View.VISIBLE);
 			mAdapter.setData(null);
-			getLoaderManager().restartLoader(0, null, this);
+			getLoaderManager().restartLoader(
+					PodroidApplication.LATEST_CONVERSATIONS_LOADER_ID, null,
+					this);
 		}
 		return true;
 	}
@@ -63,7 +67,8 @@ public class LatestConversationsFragment extends ListFragment implements
 
 		setRefreshable(false);
 		progress.setVisibility(View.VISIBLE);
-		getLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(
+				PodroidApplication.LATEST_CONVERSATIONS_LOADER_ID, null, this);
 	}
 
 	@Override

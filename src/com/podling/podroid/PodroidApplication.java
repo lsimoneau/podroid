@@ -9,6 +9,9 @@ public class PodroidApplication extends Application {
 
 	public static final String THE86_HOSTNAME = "https://podling.com";
 
+	public static final int LATEST_CONVERSATIONS_LOADER_ID = 0;
+	public static final int GROUPS_LOADER_ID = 1;
+	
 	private The86 the86;
 	private BitmapLruCache diskLruCache = null;
 	private boolean diskCacheStarting = true;

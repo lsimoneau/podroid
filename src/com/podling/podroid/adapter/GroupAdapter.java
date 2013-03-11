@@ -18,8 +18,8 @@ public class GroupAdapter extends ArrayAdapter<Group> {
 	private static final int LAYOUT = R.layout.group;
 	private final Activity context;
 
-	public GroupAdapter(Activity context, List<Group> groups) {
-		super(context, LAYOUT, groups);
+	public GroupAdapter(Activity context) {
+		super(context, LAYOUT);
 		this.context = context;
 	}
 
@@ -43,7 +43,14 @@ public class GroupAdapter extends ArrayAdapter<Group> {
 
 		return convertView;
 	}
-
+	
+	public void setData(List<Group> data) {
+		clear();
+		if (data != null) {
+			addAll(data);
+		}
+	}
+	
 	static class GroupViewHolder {
 		TextView groupName;
 	}

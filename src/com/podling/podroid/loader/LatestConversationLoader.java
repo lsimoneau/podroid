@@ -1,31 +1,24 @@
-package com.podling.podroid.main;
+package com.podling.podroid.loader;
 
 import java.util.List;
 
-import org.the86.The86;
 import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
 
-import android.app.Activity;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-import com.podling.podroid.util.The86Util;
-
 public class LatestConversationLoader extends
-		AsyncTaskLoader<List<Conversation>> {
-	private The86 the86;
+		The86AsyncTaskLoader<List<Conversation>> {
 	private List<Conversation> mConversations;
 
 	public LatestConversationLoader(Context context) {
 		super(context);
-		the86 = The86Util.get((Activity) context);
 	}
 
 	@Override
 	public List<Conversation> loadInBackground() {
 		try {
-			mConversations = the86.getUserConversations();
+			mConversations = getThe86().getUserConversations();
 			return mConversations;
 		} catch (The86Exception e) {
 			// TODO Auto-generated catch block

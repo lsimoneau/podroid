@@ -61,7 +61,7 @@ public class CreateGroupDialogFragment extends DialogFragment {
 
 	private void onGroupCreated(Group group) {
 		if (group != null) {
-			groupsFragment.fetchGroups();
+//			groupsFragment.fetchGroups();
 		} else {
 			Toast.makeText(getActivity(), "Couldn't create a group",
 					Toast.LENGTH_SHORT).show();

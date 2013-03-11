@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
 			finish();
 			return;
 		}
+		
 		the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
 
 		the86.setAuthorization(userId, userAuthToken);
@@ -96,7 +97,6 @@ public class MainActivity extends Activity {
 								GroupsFragment.class));
 		actionBar.addTab(groups);
 	}
-
 
 	class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
 		@Override
