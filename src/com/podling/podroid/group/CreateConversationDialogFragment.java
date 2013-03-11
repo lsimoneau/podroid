@@ -1,11 +1,8 @@
-package com.podling.podroid;
+package com.podling.podroid.group;
 
 import org.the86.ConversationService;
 import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
-
-import com.podling.podroid.group.GroupConversationsFragment;
-import com.podling.podroid.util.The86Util;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +15,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+
+import com.podling.podroid.R;
+import com.podling.podroid.util.The86Util;
 
 public class CreateConversationDialogFragment extends DialogFragment {
 	private ConversationService the86;

@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_create_post"
         android:icon="@drawable/ic_menu_compose"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="ifRoom"
         android:title="reply"/>
     <item
         android:id="@+id/refresh_posts_menu_item"

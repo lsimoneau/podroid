@@ -1,4 +1,4 @@
-package com.podling.podroid;
+package com.podling.podroid.posts;
 
 import org.the86.PostService;
 import org.the86.exception.The86Exception;
@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.podling.podroid.posts.PostsActivity;
+import com.podling.podroid.R;
 import com.podling.podroid.util.The86Util;
 
 public class CreatePostDialogFragment extends DialogFragment {

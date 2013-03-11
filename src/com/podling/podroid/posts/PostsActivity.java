@@ -25,7 +25,6 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
 
-import com.podling.podroid.CreatePostDialogFragment;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.PostsAdapter;
