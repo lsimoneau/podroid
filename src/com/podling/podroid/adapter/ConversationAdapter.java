@@ -16,12 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.kevinsawicki.timeago.TimeAgo;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.util.ConversationUtil;
 import com.podling.podroid.util.PostUtil;
+import com.podling.podroid.util.The86Util;
 
 public class ConversationAdapter extends ArrayAdapter<Conversation> {
 	private final Activity context;
@@ -78,7 +78,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 			holder.groupName.setVisibility(View.GONE);
 		}
 
-		holder.bumpedAt.setText(new TimeAgo().timeAgo(conversation
+		holder.bumpedAt.setText(The86Util.getRelativeLocalTime(conversation
 				.getBumpedAt()));
 
 		holder.replies.setText(ConversationUtil.replyCount(conversation));

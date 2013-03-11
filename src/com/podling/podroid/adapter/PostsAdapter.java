@@ -14,12 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.kevinsawicki.timeago.TimeAgo;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.util.HtmlTextView;
 import com.podling.podroid.util.PostUtil;
+import com.podling.podroid.util.The86Util;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
 	private final Activity context;
@@ -82,7 +82,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 	}
 
 	private String statusForPost(Post post) {
-		String status = new TimeAgo().timeAgo(post.getCreatedAt());
+		String status = The86Util.getRelativeLocalTime(post.getCreatedAt());
 		if (post.getInReplyToId() != null) {
 			status = String.format("%s in reply to %s", status, post
 					.getInReplyTo().getUser().getName());
