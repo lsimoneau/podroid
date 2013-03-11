@@ -28,7 +28,7 @@
         </activity>
         <activity android:name="com.podling.podroid.AuthenticationActivity" >
         </activity>
-        <activity android:name="com.podling.podroid.group.CreateGroupActivity" >
+        <activity android:name="com.podling.podroid.group.CreateGroupDialogFragment" >
         </activity>
         <activity android:name="com.podling.podroid.group.GroupActivity" >
         </activity>

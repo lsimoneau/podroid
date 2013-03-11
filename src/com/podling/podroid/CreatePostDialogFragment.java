@@ -16,11 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.podling.podroid.posts.PostsActivity;
+import com.podling.podroid.util.The86Util;
+
 public class CreatePostDialogFragment extends DialogFragment {
 	private PostService the86;
 	private String groupSlug;
 	private String conversationId;
 	private String inReplyToId;
+	// TODO this is a pretty crap encapsulation breakage - consider broadcasts?
+	private PostsActivity postActivity;
 
 	public static CreatePostDialogFragment newInstance(String groupSlug,
 			String conversationId) {
@@ -41,7 +46,7 @@ public class CreatePostDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		setupFragment();
-
+		postActivity = (PostsActivity) getActivity();
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.create_post_dialog, null);
@@ -72,15 +77,13 @@ public class CreatePostDialogFragment extends DialogFragment {
 		conversationId = args.getString("conversationId");
 		inReplyToId = args.getString("inReplyToId");
 
-		the86 = ((PodroidApplication) getActivity().getApplicationContext())
-				.getThe86();
+		the86 = The86Util.get(getActivity());
 	}
 
 	class CreatePostTask extends AsyncTask<String, Void, Post> {
 		protected ProgressDialog dialog;
 
 		public CreatePostTask(Context context) {
-			// create a progress dialog
 			dialog = new ProgressDialog(context);
 			dialog.setMessage("posting");
 			dialog.setCancelable(false);
@@ -104,9 +107,8 @@ public class CreatePostDialogFragment extends DialogFragment {
 		}
 
 		protected void onPostExecute(Post post) {
-			// populate(conversations);
+			postActivity.fetchPosts();
 			dialog.dismiss();
 		}
-
 	}
 }

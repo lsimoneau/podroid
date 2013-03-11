@@ -67,6 +67,7 @@ public class GroupConversationsFragment extends GroupFragment {
 			CreateConversationDialogFragment dialog = CreateConversationDialogFragment
 					.newInstance(groupSlug);
 			FragmentManager fragmentManager = getFragmentManager();
+			dialog.setTargetFragment(this, 0);
 			dialog.show(fragmentManager, "create_conversation");
 		} else if (item.getItemId() == R.id.refresh_conversations_menu_item) {
 			fetchConversations();
@@ -82,7 +83,7 @@ public class GroupConversationsFragment extends GroupFragment {
 		}
 	}
 
-	private void fetchConversations() {
+	public void fetchConversations() {
 		setRefreshable(false);
 		((ConversationAdapter) getListAdapter()).clear();
 		new RetrieveConversationsTask().execute();

@@ -125,7 +125,7 @@ public class PostsActivity extends ListActivity {
 		return true;
 	}
 
-	private void fetchPosts() {
+	public void fetchPosts() {
 		setRefreshable(false);
 		((PostsAdapter) getListAdapter()).clear();
 		new RetrievePostsTask().execute();

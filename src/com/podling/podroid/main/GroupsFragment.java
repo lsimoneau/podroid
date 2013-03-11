@@ -7,6 +7,7 @@ import org.the86.The86;
 import org.the86.exception.The86Exception;
 import org.the86.model.Group;
 
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import android.widget.ListView;
 
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.GroupAdapter;
-import com.podling.podroid.group.CreateGroupActivity;
+import com.podling.podroid.group.CreateGroupDialogFragment;
 import com.podling.podroid.group.GroupActivity;
 import com.podling.podroid.util.The86Util;
 
@@ -65,7 +66,11 @@ public class GroupsFragment extends ListFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_create_group) {
-			startActivity(CreateGroupActivity.newInstance(getActivity()));
+			CreateGroupDialogFragment dialog = CreateGroupDialogFragment
+					.newInstance();
+			FragmentManager fragmentManager = getFragmentManager();
+			dialog.setTargetFragment(this, 0);
+			dialog.show(fragmentManager, "create_group");
 		} else if (item.getItemId() == R.id.refresh_groups_menu_item) {
 			fetchGroups();
 		}
@@ -79,7 +84,7 @@ public class GroupsFragment extends ListFragment {
 		startActivity(GroupActivity.newInstance(getActivity(), group));
 	}
 
-	private void fetchGroups() {
+	public void fetchGroups() {
 		setRefreshable(false);
 		((GroupAdapter) getListAdapter()).clear();
 		new RetrieveGroupsTask().execute();

@@ -4,6 +4,9 @@ import org.the86.ConversationService;
 import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
 
+import com.podling.podroid.group.GroupConversationsFragment;
+import com.podling.podroid.util.The86Util;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 public class CreateConversationDialogFragment extends DialogFragment {
 	private ConversationService the86;
 	private String groupSlug;
+	private GroupConversationsFragment groupConversationsFragment;
 
 	public static CreateConversationDialogFragment newInstance(String groupSlug) {
 		CreateConversationDialogFragment dialog = new CreateConversationDialogFragment();
@@ -31,15 +35,15 @@ public class CreateConversationDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		groupSlug = getArguments().getString("groupSlug");
+		the86 = The86Util.get(getActivity());
+		groupConversationsFragment = (GroupConversationsFragment) getTargetFragment();
 
-		the86 = ((PodroidApplication) getActivity().getApplicationContext())
-				.getThe86();
-		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.create_conversation_dialog, null);
 		final EditText content = (EditText) view
 				.findViewById(R.id.create_conversation_content);
+
 		builder.setView(view)
 				.setPositiveButton("ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -61,9 +65,8 @@ public class CreateConversationDialogFragment extends DialogFragment {
 		protected ProgressDialog dialog;
 
 		public CreateConversationTask(Context context) {
-			// create a progress dialog
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("creating conversation");
+			dialog.setMessage("posting");
 			dialog.setCancelable(false);
 		}
 
@@ -84,6 +87,7 @@ public class CreateConversationDialogFragment extends DialogFragment {
 		}
 
 		protected void onPostExecute(Conversation conversations) {
+			groupConversationsFragment.fetchConversations();
 			dialog.dismiss();
 		}
 
