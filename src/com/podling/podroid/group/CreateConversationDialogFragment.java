@@ -45,7 +45,7 @@ public class CreateConversationDialogFragment extends DialogFragment {
 				.findViewById(R.id.create_conversation_content);
 
 		builder.setView(view)
-				.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+				.setPositiveButton("post", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						new CreateConversationTask(getActivity())
 								.execute(content.getText().toString());
