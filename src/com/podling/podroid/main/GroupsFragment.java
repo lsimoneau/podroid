@@ -70,10 +70,7 @@ public class GroupsFragment extends ListFragment implements
 			dialog.setTargetFragment(this, 0);
 			dialog.show(fragmentManager, "create_group");
 		} else if (item.getItemId() == R.id.refresh_groups_menu_item) {
-			progress.setVisibility(View.VISIBLE);
-			mAdapter.setData(null);
-			getLoaderManager().restartLoader(
-					PodroidApplication.GROUPS_LOADER_ID, null, this);
+			refreshData();
 		}
 		return true;
 	}
@@ -106,5 +103,13 @@ public class GroupsFragment extends ListFragment implements
 	private void setRefreshable(boolean allowRefresh) {
 		this.allowRefresh = allowRefresh;
 		getActivity().invalidateOptionsMenu();
+	}
+
+	public void refreshData() {
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		mAdapter.setData(null);
+		getLoaderManager().restartLoader(PodroidApplication.GROUPS_LOADER_ID,
+				null, this);
 	}
 }

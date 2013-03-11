@@ -1,13 +1,12 @@
 package com.podling.podroid.group;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.the86.exception.The86Exception;
 import org.the86.model.Conversation;
 
 import android.app.FragmentManager;
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,22 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.podling.podroid.CreateConversationDialogFragment;
+import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
+import com.podling.podroid.loader.ConversationsLoader;
 import com.podling.podroid.posts.PostsActivity;
 
-public class GroupConversationsFragment extends GroupFragment {
+public class GroupConversationsFragment extends GroupFragment implements
+		LoaderManager.LoaderCallbacks<List<Conversation>> {
 	private LinearLayout progress;
-	private boolean fetched = false;
+	private ConversationAdapter mAdapter;
 	private boolean allowRefresh = false;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-//		setListAdapter(new ConversationAdapter(getActivity(),
-//				new ArrayList<Conversation>()));
-	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -70,7 +64,7 @@ public class GroupConversationsFragment extends GroupFragment {
 			dialog.setTargetFragment(this, 0);
 			dialog.show(fragmentManager, "create_conversation");
 		} else if (item.getItemId() == R.id.refresh_conversations_menu_item) {
-			fetchConversations();
+			refreshData();
 		}
 		return true;
 	}
@@ -78,20 +72,35 @@ public class GroupConversationsFragment extends GroupFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (!fetched) {
-			fetchConversations();
-		}
-	}
+		setHasOptionsMenu(true);
 
-	public void fetchConversations() {
+		mAdapter = new ConversationAdapter(getActivity());
+		setListAdapter(mAdapter);
+
 		setRefreshable(false);
-		((ConversationAdapter) getListAdapter()).clear();
-		new RetrieveConversationsTask().execute();
+		progress.setVisibility(View.VISIBLE);
+		getLoaderManager().initLoader(
+				PodroidApplication.GROUP_CONVERSATIONS_LOADER_ID,
+				loaderArguments(), this);
 	}
 
-	private void populate(List<Conversation> conversations) {
-		((ConversationAdapter) getListAdapter()).addAll(conversations);
+	@Override
+	public Loader<List<Conversation>> onCreateLoader(int id, Bundle args) {
+		return new ConversationsLoader(getActivity(),
+				args.getString("groupSlug"));
+	}
+
+	@Override
+	public void onLoadFinished(Loader<List<Conversation>> loader,
+			List<Conversation> conversations) {
+		mAdapter.setData(conversations);
+		progress.setVisibility(View.GONE);
 		setRefreshable(true);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<List<Conversation>> loader) {
+		mAdapter.setData(null);
 	}
 
 	private void setRefreshable(boolean allowRefresh) {
@@ -99,31 +108,18 @@ public class GroupConversationsFragment extends GroupFragment {
 		getActivity().invalidateOptionsMenu();
 	}
 
-	class RetrieveConversationsTask extends
-			AsyncTask<Void, Void, List<Conversation>> {
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progress.setVisibility(View.VISIBLE);
-		}
+	public void refreshData() {
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		mAdapter.setData(null);
+		getLoaderManager().restartLoader(
+				PodroidApplication.GROUP_CONVERSATIONS_LOADER_ID,
+				loaderArguments(), this);
+	}
 
-		@Override
-		protected List<Conversation> doInBackground(Void... params) {
-			try {
-				return the86.getGroupConversations(groupSlug);
-			} catch (The86Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<Conversation> conversations) {
-			populate(conversations);
-			fetched = true;
-			progress.setVisibility(View.GONE);
-		}
-
+	private Bundle loaderArguments() {
+		Bundle args = new Bundle();
+		args.putString("groupSlug", groupSlug);
+		return args;
 	}
 }

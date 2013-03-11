@@ -87,7 +87,7 @@ public class CreateConversationDialogFragment extends DialogFragment {
 		}
 
 		protected void onPostExecute(Conversation conversations) {
-			groupConversationsFragment.fetchConversations();
+			groupConversationsFragment.refreshData();
 			dialog.dismiss();
 		}
 

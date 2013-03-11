@@ -20,7 +20,7 @@ import android.widget.ListView;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
-import com.podling.podroid.loader.LatestConversationLoader;
+import com.podling.podroid.loader.ConversationsLoader;
 import com.podling.podroid.posts.PostsActivity;
 
 public class LatestConversationsFragment extends ListFragment implements
@@ -48,11 +48,7 @@ public class LatestConversationsFragment extends ListFragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.refresh_conversations_menu_item) {
-			progress.setVisibility(View.VISIBLE);
-			mAdapter.setData(null);
-			getLoaderManager().restartLoader(
-					PodroidApplication.LATEST_CONVERSATIONS_LOADER_ID, null,
-					this);
+			refreshData();
 		}
 		return true;
 	}
@@ -81,7 +77,7 @@ public class LatestConversationsFragment extends ListFragment implements
 
 	@Override
 	public Loader<List<Conversation>> onCreateLoader(int id, Bundle args) {
-		return new LatestConversationLoader(getActivity());
+		return new ConversationsLoader(getActivity());
 	}
 
 	@Override
@@ -100,5 +96,13 @@ public class LatestConversationsFragment extends ListFragment implements
 	private void setRefreshable(boolean allowRefresh) {
 		this.allowRefresh = allowRefresh;
 		getActivity().invalidateOptionsMenu();
+	}
+
+	public void refreshData() {
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		mAdapter.setData(null);
+		getLoaderManager().restartLoader(
+				PodroidApplication.LATEST_CONVERSATIONS_LOADER_ID, null, this);
 	}
 }

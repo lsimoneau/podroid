@@ -7,18 +7,28 @@ import org.the86.model.Conversation;
 
 import android.content.Context;
 
-public class LatestConversationLoader extends
+public class ConversationsLoader extends
 		The86AsyncTaskLoader<List<Conversation>> {
 	private List<Conversation> mConversations;
+	private String groupSlug;
 
-	public LatestConversationLoader(Context context) {
+	public ConversationsLoader(Context context) {
+		this(context, null);
+	}
+
+	public ConversationsLoader(Context context, String groupSlug) {
 		super(context);
+		this.groupSlug = groupSlug;
 	}
 
 	@Override
 	public List<Conversation> loadInBackground() {
 		try {
-			mConversations = getThe86().getUserConversations();
+			if (groupSlug != null) {
+				mConversations = getThe86().getGroupConversations(groupSlug);
+			} else {
+				mConversations = getThe86().getUserConversations();
+			}
 			return mConversations;
 		} catch (The86Exception e) {
 			// TODO Auto-generated catch block
