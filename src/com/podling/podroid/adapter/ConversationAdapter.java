@@ -27,9 +27,8 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 	private final Activity context;
 	private static final int LAYOUT = R.layout.conversation;
 
-	public ConversationAdapter(Activity context,
-			List<Conversation> conversations) {
-		super(context, LAYOUT, conversations);
+	public ConversationAdapter(Activity context) {
+		super(context, LAYOUT);
 		this.context = context;
 	}
 
@@ -97,6 +96,13 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 		}
 
 		return convertView;
+	}
+
+	public void setData(List<Conversation> data) {
+		clear();
+		if (data != null) {
+			addAll(data);
+		}
 	}
 
 	static class ConversationViewHolder extends AvatarViewHolder {

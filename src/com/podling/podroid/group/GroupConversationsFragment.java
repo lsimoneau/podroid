@@ -32,8 +32,8 @@ public class GroupConversationsFragment extends GroupFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		setListAdapter(new ConversationAdapter(getActivity(),
-				new ArrayList<Conversation>()));
+//		setListAdapter(new ConversationAdapter(getActivity(),
+//				new ArrayList<Conversation>()));
 	}
 
 	@Override
