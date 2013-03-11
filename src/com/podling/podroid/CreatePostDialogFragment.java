@@ -107,7 +107,7 @@ public class CreatePostDialogFragment extends DialogFragment {
 		}
 
 		protected void onPostExecute(Post post) {
-			postActivity.fetchPosts();
+			postActivity.refreshData();
 			dialog.dismiss();
 		}
 	}

@@ -1,6 +1,5 @@
 package com.podling.podroid.posts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.the86.The86;
@@ -11,9 +10,11 @@ import org.the86.model.Post;
 
 import android.app.FragmentManager;
 import android.app.ListActivity;
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -25,16 +26,20 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.LinearLayout;
 
 import com.podling.podroid.CreatePostDialogFragment;
+import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.PostsAdapter;
+import com.podling.podroid.loader.PostsLoader;
 import com.podling.podroid.util.The86Util;
 
-public class PostsActivity extends ListActivity {
+public class PostsActivity extends ListActivity implements
+		LoaderManager.LoaderCallbacks<List<Post>> {
 	private The86 the86;
 	private LinearLayout progress;
+	private PostsAdapter mAdapter;
+	private boolean allowRefresh = false;
 	private String groupSlug;
 	private String conversationId;
-	private boolean allowRefresh = false;
 
 	public static Intent newInstance(Context context, Conversation conversation) {
 		return newInstance(context, conversation.getGroup().getSlug(),
@@ -50,8 +55,9 @@ public class PostsActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		the86 = The86Util.get(this);
 
 		Bundle extras = getIntent().getExtras();
@@ -62,12 +68,17 @@ public class PostsActivity extends ListActivity {
 
 		progress = (LinearLayout) findViewById(R.id.posts_loading_progress);
 
+		mAdapter = new PostsAdapter(this);
+		setListAdapter(mAdapter);
+
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		getLoaderManager().initLoader(
+				PodroidApplication.GROUP_MEMBERS_LOADER_ID, loaderArguments(),
+				this);
+
 		// getListView().setItemsCanFocus(true);
 		registerForContextMenu(getListView());
-
-		setListAdapter(new PostsAdapter(this, new ArrayList<Post>()));
-
-		fetchPosts();
 	}
 
 	@Override
@@ -121,20 +132,27 @@ public class PostsActivity extends ListActivity {
 			FragmentManager fragmentManager = getFragmentManager();
 			dialog.show(fragmentManager, "create_post");
 		} else if (item.getItemId() == R.id.refresh_posts_menu_item) {
-			fetchPosts();
+			refreshData();
 		}
 		return true;
 	}
 
-	public void fetchPosts() {
-		setRefreshable(false);
-		((PostsAdapter) getListAdapter()).clear();
-		new RetrievePostsTask().execute();
+	@Override
+	public Loader<List<Post>> onCreateLoader(int id, Bundle args) {
+		return new PostsLoader(this, args.getString("groupSlug"),
+				args.getString("conversationId"));
 	}
 
-	private void populate(List<Post> posts) {
-		((PostsAdapter) getListAdapter()).addAll(posts);
+	@Override
+	public void onLoadFinished(Loader<List<Post>> loader, List<Post> members) {
+		mAdapter.setData(members);
+		progress.setVisibility(View.GONE);
 		setRefreshable(true);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<List<Post>> loader) {
+		mAdapter.setData(null);
 	}
 
 	private void setRefreshable(boolean allowRefresh) {
@@ -142,12 +160,28 @@ public class PostsActivity extends ListActivity {
 		invalidateOptionsMenu();
 	}
 
+	public void refreshData() {
+		setRefreshable(false);
+		progress.setVisibility(View.VISIBLE);
+		mAdapter.setData(null);
+		getLoaderManager().restartLoader(
+				PodroidApplication.GROUP_MEMBERS_LOADER_ID, loaderArguments(),
+				this);
+	}
+
+	private Bundle loaderArguments() {
+		Bundle args = new Bundle();
+		args.putString("groupSlug", groupSlug);
+		args.putString("conversationId", conversationId);
+		return args;
+	}
+
 	class TogglePostLikeTask extends AsyncTask<Post, Void, Like> {
 		protected ProgressDialog dialog;
 
 		public TogglePostLikeTask(Context context) {
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("creating group");
+			dialog.setMessage("liking");
 			dialog.setCancelable(false);
 		}
 
@@ -178,36 +212,9 @@ public class PostsActivity extends ListActivity {
 
 		@Override
 		protected void onPostExecute(Like like) {
-			fetchPosts();
+			refreshData();
 			dialog.hide();
 		}
-	}
-
-	class RetrievePostsTask extends AsyncTask<Void, Void, List<Post>> {
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progress.setVisibility(View.VISIBLE);
-		}
-
-		@Override
-		protected List<Post> doInBackground(Void... params) {
-			try {
-				return the86.getConversationPosts(groupSlug, conversationId);
-			} catch (The86Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<Post> posts) {
-			populate(posts);
-			progress.setVisibility(View.GONE);
-		}
-
 	}
 
 }

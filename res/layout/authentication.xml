@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:id="@+id/header"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dip"
         android:layout_marginTop="20dip"
@@ -40,7 +40,7 @@
 
         <EditText
             android:id="@+id/authentication_email"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dip"
             android:background="#fff"
@@ -54,7 +54,7 @@
 
         <EditText
             android:id="@+id/authentication_password"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
             android:fontFamily="sans-serif"

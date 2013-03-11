@@ -25,8 +25,8 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 	private final Activity context;
 	private static final int LAYOUT = R.layout.post;
 
-	public PostsAdapter(Activity context, List<Post> posts) {
-		super(context, LAYOUT, posts);
+	public PostsAdapter(Activity context) {
+		super(context, LAYOUT);
 		this.context = context;
 	}
 
@@ -88,6 +88,13 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 					.getInReplyTo().getUser().getName());
 		}
 		return status;
+	}
+
+	public void setData(List<Post> data) {
+		clear();
+		if (data != null) {
+			addAll(data);
+		}
 	}
 
 	static class PostViewHolder extends AvatarViewHolder {
