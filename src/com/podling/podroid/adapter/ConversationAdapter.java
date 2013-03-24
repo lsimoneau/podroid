@@ -82,10 +82,10 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 
 		int count = conversation.getPosts().size() - 1; // OP not counted
 		Resources res = context.getResources();
-		holder.replies.setText(res.getQuantityString(R.plurals.reply_count, count));
+		holder.replies.setText(res.getQuantityString(R.plurals.reply_count, count, count));
 
 		int likes = post.getLikes().size();
-		holder.likes.setText(res.getQuantityString(R.plurals.like_count, likes));
+		holder.likes.setText(res.getQuantityString(R.plurals.like_count, likes, likes));
 
 		holder.position = position;
 

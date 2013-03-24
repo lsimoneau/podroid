@@ -68,7 +68,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
 		int likes = post.getLikes().size();
 		Resources res = context.getResources();
-		holder.likes.setText(res.getQuantityString(R.plurals.like_count, likes));
+		holder.likes.setText(res.getQuantityString(R.plurals.like_count, likes, likes));
 
 		holder.position = position;
 
