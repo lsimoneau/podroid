@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="like_count">
+        <item quantity="zero"></item>
+        <item quantity="one">1 like</item>
+        <item quantity="other">%d likes</item>
+    </plurals>
+
+    <string name="reply_to_post">Reply</string>
+    <string name="like_post">Like</string>
+    <string name="unlike_post">Unlike</string>
+    <string name="no_posts">No posts.</string>
+    <string name="create_post_hint">Write a response</string>
+
+</resources>

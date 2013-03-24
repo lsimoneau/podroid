@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="conversations_tab">conversations</string>
+    <string name="members_tab">members</string>
+    <string name="create_group_submit">Create</string>
+    <string name="creating_group">creating group</string>
+    <string name="create_group_failed">Couldn\'t create a group</string>
+    <string name="no_groups">No groups.</string>
+    <string name="no_group_members">No members.</string>
+
+</resources>

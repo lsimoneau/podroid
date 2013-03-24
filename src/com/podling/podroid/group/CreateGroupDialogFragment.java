@@ -10,6 +10,7 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -63,7 +64,9 @@ public class CreateGroupDialogFragment extends DialogFragment {
 		if (group != null) {
 			groupsFragment.refreshData();
 		} else {
-			Toast.makeText(getActivity(), "Couldn't create a group",
+			Resources res = getActivity().getResources();
+			Toast.makeText(getActivity(),
+					res.getString(R.string.create_group_failed),
 					Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -73,7 +76,8 @@ public class CreateGroupDialogFragment extends DialogFragment {
 
 		public CreateGroupTask(Context context) {
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("creating group");
+			dialog.setMessage(context.getResources().getString(
+					R.string.creating_group));
 			dialog.setCancelable(false);
 		}
 

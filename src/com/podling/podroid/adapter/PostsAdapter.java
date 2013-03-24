@@ -7,6 +7,7 @@ import org.the86.model.User;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.util.HtmlTextView;
-import com.podling.podroid.util.PostUtil;
 import com.podling.podroid.util.The86Util;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
@@ -66,7 +66,9 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 		holder.content.setMovementMethod(HtmlTextView.LocalLinkMovementMethod
 				.getInstance());
 
-		holder.likes.setText(PostUtil.likeCount(post));
+		int likes = post.getLikes().size();
+		Resources res = context.getResources();
+		holder.likes.setText(res.getQuantityString(R.plurals.like_count, likes));
 
 		holder.position = position;
 
@@ -83,9 +85,10 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
 	private String statusForPost(Post post) {
 		String status = The86Util.getRelativeLocalTime(post.getCreatedAt());
+		Resources res = context.getResources();
 		if (post.getInReplyToId() != null) {
-			status = String.format("%s in reply to %s", status, post
-					.getInReplyTo().getUser().getName());
+			status = String.format(res.getString(R.string.in_reply_to), status,
+					post.getInReplyTo().getUser().getName());
 		}
 		return status;
 	}

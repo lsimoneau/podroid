@@ -8,6 +8,7 @@ import org.the86.model.User;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,6 @@ import android.widget.TextView;
 import com.podling.podroid.DownloadImageTask;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
-import com.podling.podroid.util.ConversationUtil;
-import com.podling.podroid.util.PostUtil;
 import com.podling.podroid.util.The86Util;
 
 public class ConversationAdapter extends ArrayAdapter<Conversation> {
@@ -81,9 +80,12 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 		holder.bumpedAt.setText(The86Util.getRelativeLocalTime(conversation
 				.getBumpedAt()));
 
-		holder.replies.setText(ConversationUtil.replyCount(conversation));
+		int count = conversation.getPosts().size() - 1; // OP not counted
+		Resources res = context.getResources();
+		holder.replies.setText(res.getQuantityString(R.plurals.reply_count, count));
 
-		holder.likes.setText(PostUtil.likeCount(post));
+		int likes = post.getLikes().size();
+		holder.likes.setText(res.getQuantityString(R.plurals.like_count, likes));
 
 		holder.position = position;
 

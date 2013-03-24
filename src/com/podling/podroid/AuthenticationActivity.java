@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -72,9 +73,10 @@ public class AuthenticationActivity extends Activity {
 
 		public AuthenticateTask(Context context) {
 			this.context = context;
+			Resources res = context.getResources();
 			// create a progress dialog
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("signing in");
+			dialog.setMessage(res.getString(R.string.signing_in));
 			dialog.setCancelable(false);
 		}
 
@@ -100,7 +102,10 @@ public class AuthenticationActivity extends Activity {
 				// success!
 				authSuccess(authorization);
 			} else {
-				Toast.makeText(context, "Incorrect username or password :(",
+				Toast.makeText(
+						context,
+						context.getResources().getString(
+								R.string.authentication_failed),
 						Toast.LENGTH_SHORT).show();
 			}
 		}

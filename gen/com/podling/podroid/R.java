@@ -18,55 +18,55 @@ public final class R {
         public static final int logo=0x7f020004;
     }
     public static final class id {
-        public static final int authentication_details=0x7f070002;
-        public static final int authentication_email=0x7f070003;
-        public static final int authentication_password=0x7f070004;
-        public static final int btnLogin=0x7f070005;
-        public static final int conversation_bumped_at=0x7f070009;
-        public static final int conversation_content=0x7f07000a;
-        public static final int conversation_group_name=0x7f070008;
-        public static final int conversation_likes=0x7f07000c;
-        public static final int conversation_loading_progress=0x7f07000d;
-        public static final int conversation_loading_progress_bar=0x7f07000e;
-        public static final int conversation_poster=0x7f070007;
-        public static final int conversation_poster_avatar=0x7f070006;
-        public static final int conversation_replies=0x7f07000b;
-        public static final int create_conversation_content=0x7f07000f;
-        public static final int create_group_name=0x7f070010;
-        public static final int create_post_content=0x7f070011;
-        public static final int group_member_avatar=0x7f070013;
-        public static final int group_member_name=0x7f070014;
-        public static final int group_member_profile=0x7f070015;
-        public static final int group_members_loading_progress=0x7f070016;
-        public static final int group_members_loading_progress_bar=0x7f070017;
-        public static final int group_name=0x7f070012;
-        public static final int groups_loading_progress=0x7f070018;
-        public static final int groups_loading_progress_bar=0x7f070019;
-        public static final int header=0x7f070000;
-        public static final int menu_create_conversation=0x7f070029;
-        public static final int menu_create_group=0x7f07002a;
-        public static final int menu_create_post=0x7f07002f;
-        public static final int podling_logo=0x7f070001;
-        public static final int post_content=0x7f07001d;
-        public static final int post_context_menu_like=0x7f07002d;
-        public static final int post_context_menu_reply=0x7f07002e;
-        public static final int post_likes=0x7f07001e;
-        public static final int post_status=0x7f07001c;
-        public static final int post_user_avatar=0x7f07001a;
-        public static final int post_user_name=0x7f07001b;
-        public static final int posts_loading_progress=0x7f07001f;
-        public static final int posts_loading_progress_bar=0x7f070020;
-        public static final int refresh_conversations_menu_item=0x7f070028;
-        public static final int refresh_group_members_menu_item=0x7f07002c;
-        public static final int refresh_groups_menu_item=0x7f07002b;
-        public static final int refresh_posts_menu_item=0x7f070030;
-        public static final int user_avatar=0x7f070023;
-        public static final int user_loading_progress=0x7f070021;
-        public static final int user_loading_progress_bar=0x7f070022;
-        public static final int user_location=0x7f070026;
-        public static final int user_name=0x7f070024;
-        public static final int user_profile=0x7f070027;
-        public static final int user_twitter_handle=0x7f070025;
+        public static final int authentication_details=0x7f080002;
+        public static final int authentication_email=0x7f080003;
+        public static final int authentication_password=0x7f080004;
+        public static final int btnLogin=0x7f080005;
+        public static final int conversation_bumped_at=0x7f080009;
+        public static final int conversation_content=0x7f08000a;
+        public static final int conversation_group_name=0x7f080008;
+        public static final int conversation_likes=0x7f08000c;
+        public static final int conversation_loading_progress=0x7f08000d;
+        public static final int conversation_loading_progress_bar=0x7f08000e;
+        public static final int conversation_poster=0x7f080007;
+        public static final int conversation_poster_avatar=0x7f080006;
+        public static final int conversation_replies=0x7f08000b;
+        public static final int create_conversation_content=0x7f08000f;
+        public static final int create_group_name=0x7f080010;
+        public static final int create_post_content=0x7f080011;
+        public static final int group_member_avatar=0x7f080013;
+        public static final int group_member_name=0x7f080014;
+        public static final int group_member_profile=0x7f080015;
+        public static final int group_members_loading_progress=0x7f080016;
+        public static final int group_members_loading_progress_bar=0x7f080017;
+        public static final int group_name=0x7f080012;
+        public static final int groups_loading_progress=0x7f080018;
+        public static final int groups_loading_progress_bar=0x7f080019;
+        public static final int header=0x7f080000;
+        public static final int menu_create_conversation=0x7f080029;
+        public static final int menu_create_group=0x7f08002a;
+        public static final int menu_create_post=0x7f08002f;
+        public static final int podling_logo=0x7f080001;
+        public static final int post_content=0x7f08001d;
+        public static final int post_context_menu_like=0x7f08002d;
+        public static final int post_context_menu_reply=0x7f08002e;
+        public static final int post_likes=0x7f08001e;
+        public static final int post_status=0x7f08001c;
+        public static final int post_user_avatar=0x7f08001a;
+        public static final int post_user_name=0x7f08001b;
+        public static final int posts_loading_progress=0x7f08001f;
+        public static final int posts_loading_progress_bar=0x7f080020;
+        public static final int refresh_conversations_menu_item=0x7f080028;
+        public static final int refresh_group_members_menu_item=0x7f08002c;
+        public static final int refresh_groups_menu_item=0x7f08002b;
+        public static final int refresh_posts_menu_item=0x7f080030;
+        public static final int user_avatar=0x7f080023;
+        public static final int user_loading_progress=0x7f080021;
+        public static final int user_loading_progress_bar=0x7f080022;
+        public static final int user_location=0x7f080026;
+        public static final int user_name=0x7f080024;
+        public static final int user_profile=0x7f080027;
+        public static final int user_twitter_handle=0x7f080025;
     }
     public static final class layout {
         public static final int authentication=0x7f030000;
@@ -84,38 +84,49 @@ public final class R {
         public static final int user=0x7f03000c;
     }
     public static final class menu {
-        public static final int conversations_menu=0x7f060000;
-        public static final int group_conversations_menu=0x7f060001;
-        public static final int group_list_menu=0x7f060002;
-        public static final int group_members_menu=0x7f060003;
-        public static final int post_context_menu=0x7f060004;
-        public static final int posts_menu=0x7f060005;
+        public static final int conversations_menu=0x7f070000;
+        public static final int group_conversations_menu=0x7f070001;
+        public static final int group_list_menu=0x7f070002;
+        public static final int group_members_menu=0x7f070003;
+        public static final int post_context_menu=0x7f070004;
+        public static final int posts_menu=0x7f070005;
+    }
+    public static final class plurals {
+        public static final int like_count=0x7f040001;
+        public static final int reply_count=0x7f040000;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int authentication_email_hint=0x7f040007;
-        public static final int authentication_login=0x7f040006;
-        public static final int authentication_password_hint=0x7f040008;
-        public static final int create_conversation_hint=0x7f040010;
-        public static final int create_group_submit=0x7f04000d;
-        public static final int create_pod=0x7f04000b;
-        public static final int create_pod_hint=0x7f04000c;
-        public static final int create_post_hint=0x7f040011;
-        public static final int error_conversation_load=0x7f040014;
-        public static final int error_group_members_load=0x7f040016;
-        public static final int error_groups_load=0x7f040015;
-        public static final int error_posts_load=0x7f040017;
-        public static final int like_post=0x7f04000e;
-        public static final int logo_description=0x7f040009;
-        public static final int menu_settings=0x7f040001;
-        public static final int no_conversations=0x7f040003;
-        public static final int no_group_members=0x7f040004;
-        public static final int no_groups=0x7f040002;
-        public static final int no_posts=0x7f040005;
-        public static final int reply_to_post=0x7f040012;
-        public static final int tagline=0x7f04000a;
-        public static final int unlike_post=0x7f04000f;
-        public static final int user_avatar_description=0x7f040013;
+        public static final int app_name=0x7f05000c;
+        public static final int authentication_email_hint=0x7f050010;
+        public static final int authentication_failed=0x7f050012;
+        public static final int authentication_login=0x7f05000f;
+        public static final int authentication_password_hint=0x7f050011;
+        public static final int conversations_tab=0x7f050000;
+        public static final int create_conversation_hint=0x7f050018;
+        public static final int create_group_failed=0x7f050004;
+        public static final int create_group_submit=0x7f050002;
+        public static final int create_pod=0x7f050016;
+        public static final int create_pod_hint=0x7f050017;
+        public static final int create_post_hint=0x7f05000b;
+        public static final int creating_group=0x7f050003;
+        public static final int error_conversation_load=0x7f05001a;
+        public static final int error_group_members_load=0x7f05001c;
+        public static final int error_groups_load=0x7f05001b;
+        public static final int error_posts_load=0x7f05001d;
+        public static final int in_reply_to=0x7f05001e;
+        public static final int like_post=0x7f050008;
+        public static final int logo_description=0x7f050014;
+        public static final int members_tab=0x7f050001;
+        public static final int menu_settings=0x7f05000d;
+        public static final int no_conversations=0x7f05000e;
+        public static final int no_group_members=0x7f050006;
+        public static final int no_groups=0x7f050005;
+        public static final int no_posts=0x7f05000a;
+        public static final int reply_to_post=0x7f050007;
+        public static final int signing_in=0x7f050013;
+        public static final int tagline=0x7f050015;
+        public static final int unlike_post=0x7f050009;
+        public static final int user_avatar_description=0x7f050019;
     }
     public static final class style {
         /** 
@@ -139,10 +150,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f060001;
     }
 }

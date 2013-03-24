@@ -7,8 +7,10 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 
+import com.podling.podroid.R;
 import com.podling.podroid.util.TabListener;
 
 public class GroupActivity extends Activity {
@@ -24,6 +26,7 @@ public class GroupActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getIntent().getExtras();
+		Resources res = getResources();
 
 		String groupName = extras.getString("groupName");
 
@@ -34,7 +37,7 @@ public class GroupActivity extends Activity {
 
 		Tab tab = actionBar
 				.newTab()
-				.setText("conversations")
+				.setText(res.getString(R.string.conversations_tab))
 				.setTabListener(
 						new TabListener<GroupConversationsFragment>(this,
 								"conversations",
@@ -43,7 +46,7 @@ public class GroupActivity extends Activity {
 
 		tab = actionBar
 				.newTab()
-				.setText("members")
+				.setText(res.getString(R.string.members_tab))
 				.setTabListener(
 						new TabListener<GroupMembersFragment>(this, "members",
 								GroupMembersFragment.class, extras));
