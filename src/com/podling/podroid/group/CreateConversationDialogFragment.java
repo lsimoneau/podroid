@@ -6,7 +6,6 @@ import org.the86.model.Conversation;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,10 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.podling.podroid.R;
 import com.podling.podroid.util.The86Util;
 
-public class CreateConversationDialogFragment extends DialogFragment {
+public class CreateConversationDialogFragment extends SherlockDialogFragment {
 	private ConversationService the86;
 	private String groupSlug;
 	private GroupConversationsFragment groupConversationsFragment;

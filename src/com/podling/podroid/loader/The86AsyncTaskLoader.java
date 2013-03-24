@@ -3,8 +3,8 @@ package com.podling.podroid.loader;
 import org.the86.The86;
 
 import android.app.Activity;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.podling.podroid.util.The86Util;
 

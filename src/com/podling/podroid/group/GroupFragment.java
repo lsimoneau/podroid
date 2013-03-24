@@ -1,9 +1,10 @@
 package com.podling.podroid.group;
 
-import android.app.ListFragment;
 import android.os.Bundle;
 
-public abstract class GroupFragment extends ListFragment {
+import com.actionbarsherlock.app.SherlockListFragment;
+
+public abstract class GroupFragment extends SherlockListFragment {
 	protected String groupSlug;
 
 	@Override

@@ -1,24 +1,27 @@
 package com.podling.podroid.util;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.os.Bundle;
 
-public class TabListener<T extends Fragment> implements ActionBar.TabListener {
-	private final Activity mActivity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockFragment;
+
+public class TabListener<T extends SherlockFragment> implements ActionBar.TabListener {
+	private final SherlockFragmentActivity mActivity;
 	private final String mTag;
 	private final Class<T> mClass;
 	private final Bundle mArgs;
 	private Fragment mFragment;
 
-	public TabListener(Activity activity, String tag, Class<T> clz) {
+	public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz) {
 		this(activity, tag, clz, null);
 	}
 
-	public TabListener(Activity activity, String tag, Class<T> clz, Bundle args) {
+	public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz, Bundle args) {
 		mActivity = activity;
 		mTag = tag;
 		mClass = clz;
@@ -27,9 +30,9 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 		// Check to see if we already have a fragment for this tab, probably
 		// from a previously saved state. If so, deactivate it, because our
 		// initial state is that a tab isn't shown.
-		mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
+		mFragment = mActivity.getSupportFragmentManager().findFragmentByTag(mTag);
 		if (mFragment != null && !mFragment.isDetached()) {
-			FragmentTransaction ft = mActivity.getFragmentManager()
+			FragmentTransaction ft = mActivity.getSupportFragmentManager()
 					.beginTransaction();
 			ft.detach(mFragment);
 			ft.commit();

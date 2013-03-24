@@ -4,20 +4,20 @@ import java.util.List;
 
 import org.the86.model.Conversation;
 
-import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.podling.podroid.PodroidApplication;
 import com.podling.podroid.R;
 import com.podling.podroid.adapter.ConversationAdapter;
@@ -25,7 +25,7 @@ import com.podling.podroid.loader.ConversationsLoader;
 import com.podling.podroid.loader.LoaderResult;
 import com.podling.podroid.posts.PostsActivity;
 
-public class LatestConversationsFragment extends ListFragment implements
+public class LatestConversationsFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<LoaderResult<List<Conversation>>> {
 	private LinearLayout progress;
 	private ConversationAdapter mAdapter;
