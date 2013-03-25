@@ -103,7 +103,9 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 	public void setData(List<Conversation> data) {
 		clear();
 		if (data != null) {
-			addAll(data);
+			for (int i = 0; i < data.size(); i++) {
+				add(data.get(i));
+			}
 		}
 	}
 

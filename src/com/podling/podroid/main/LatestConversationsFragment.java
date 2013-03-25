@@ -5,6 +5,7 @@ import java.util.List;
 import org.the86.model.Conversation;
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -103,7 +104,7 @@ public class LatestConversationsFragment extends SherlockListFragment implements
 
 	private void setRefreshable(boolean allowRefresh) {
 		this.allowRefresh = allowRefresh;
-		getActivity().invalidateOptionsMenu();
+		ActivityCompat.invalidateOptionsMenu(getActivity());
 	}
 
 	public void refreshData() {

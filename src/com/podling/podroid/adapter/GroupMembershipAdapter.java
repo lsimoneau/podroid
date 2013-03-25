@@ -68,7 +68,9 @@ public class GroupMembershipAdapter extends ArrayAdapter<User> {
 	public void setData(List<User> data) {
 		clear();
 		if (data != null) {
-			addAll(data);
+			for (int i = 0; i < data.size(); i++) {
+				add(data.get(i));
+			}
 		}
 	}
 

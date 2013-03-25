@@ -6,7 +6,6 @@ import org.the86.exception.The86Exception;
 import org.the86.model.Authorization;
 import org.the86.model.User;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.podling.podroid.main.MainActivity;
 
-public class AuthenticationActivity extends Activity {
+public class AuthenticationActivity extends SherlockActivity {
 	private EditText emailEdit;
 	private EditText passwordEdit;
 	private The86 the86;
@@ -36,7 +36,7 @@ public class AuthenticationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.authentication);
 
-		getActionBar().hide();
+		getSupportActionBar().hide();
 
 		the86 = new The86Impl(PodroidApplication.THE86_HOSTNAME);
 

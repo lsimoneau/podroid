@@ -47,7 +47,9 @@ public class GroupAdapter extends ArrayAdapter<Group> {
 	public void setData(List<Group> data) {
 		clear();
 		if (data != null) {
-			addAll(data);
+			for (int i = 0; i < data.size(); i++) {
+				add(data.get(i));
+			}
 		}
 	}
 	

@@ -6,26 +6,25 @@ import org.the86.model.Post;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.podling.podroid.R;
 import com.podling.podroid.util.The86Util;
 
-public class CreatePostDialogFragment extends DialogFragment {
+public class CreatePostDialogFragment extends SherlockDialogFragment {
 	private PostService the86;
 	private String groupSlug;
 	private String conversationId;
 	private String inReplyToId;
-	// TODO this is a pretty crap encapsulation breakage - consider broadcasts?
-	private PostsActivity postActivity;
 
 	public static CreatePostDialogFragment newInstance(String groupSlug,
 			String conversationId) {
@@ -46,7 +45,6 @@ public class CreatePostDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		setupFragment();
-		postActivity = (PostsActivity) getActivity();
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.create_post_dialog, null);
@@ -107,8 +105,10 @@ public class CreatePostDialogFragment extends DialogFragment {
 		}
 
 		protected void onPostExecute(Post post) {
-			postActivity.refreshData();
 			dialog.dismiss();
+			Intent broadcast = new Intent();
+	        broadcast.setAction(PostsListFragment.BROADCAST_ACTION);
+	        getActivity().sendBroadcast(broadcast);
 		}
 	}
 }

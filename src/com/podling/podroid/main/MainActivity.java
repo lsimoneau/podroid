@@ -6,28 +6,31 @@ import org.the86.The86;
 import org.the86.The86Impl;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.podling.podroid.AuthenticationActivity;
 import com.podling.podroid.PodroidApplication;
-import com.podling.podroid.util.TabListener;
+import com.podling.podroid.R;
+import com.podling.podroid.util.Storage;
 
-public class MainActivity extends Activity {
+public class MainActivity extends SherlockFragmentActivity {
 
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 5; // 5 MB
 	private static final String DISK_CACHE_SUBDIR = "thumbnails";
 	private ActionBar actionBar;
+	private ViewPager mViewPager;
+	private MainPagerAdapter mPagerAdapter;
 	private The86 the86;
-	private Tab latest;
-	private Tab groups;
 
 	public static Intent newInstance(Context context) {
 		Intent intent = new Intent(context, MainActivity.class);
@@ -38,7 +41,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setupDiskCache();
-		actionBar = getActionBar();
+		actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		SharedPreferences prefs = getSharedPreferences("com.podling.podroid",
@@ -56,19 +59,46 @@ public class MainActivity extends Activity {
 
 		the86.setAuthorization(userId, userAuthToken);
 		((PodroidApplication) getApplicationContext()).setThe86(the86);
+		
+		this.setContentView(R.layout.main);
+		
+		mViewPager = (ViewPager) findViewById(R.id.main_pager);
+		mViewPager.setOffscreenPageLimit(1);
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+						// When swiping between pages, select the
+						// corresponding tab.
+						getSupportActionBar().setSelectedNavigationItem(
+								position);
+					}
+				});
 
 		createTabs();
-
+		
 		if (savedInstanceState != null) {
 			actionBar.setSelectedNavigationItem(savedInstanceState.getInt(
 					"tab", 0));
+		}
+	
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		if (mPagerAdapter == null) {
+			mPagerAdapter = new MainPagerAdapter(
+					getSupportFragmentManager());
+			mViewPager.setAdapter(mPagerAdapter);
 		}
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+		outState.putInt("tab", getSupportActionBar().getSelectedNavigationIndex());
 	}
 
 	private void setupDiskCache() {
@@ -78,21 +108,30 @@ public class MainActivity extends Activity {
 	}
 
 	public void createTabs() {
-		latest = actionBar
-				.newTab()
-				.setText("latest")
-				.setTabListener(
-						new TabListener<LatestConversationsFragment>(this,
-								"latest", LatestConversationsFragment.class));
-		actionBar.addTab(latest);
+		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+
+			@Override
+			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onTabSelected(Tab tab, FragmentTransaction ft) {
+				mViewPager.setCurrentItem(tab.getPosition());
+			}
+
+			@Override
+			public void onTabReselected(Tab tab, FragmentTransaction ft) {
+				// TODO Auto-generated method stub
+
+			}
+		};
 		
-		groups = actionBar
-				.newTab()
-				.setText("pods")
-				.setTabListener(
-						new TabListener<GroupsFragment>(this, "pods",
-								GroupsFragment.class));
-		actionBar.addTab(groups);
+		actionBar.addTab(actionBar.newTab().setText("pods")
+				.setTabListener(tabListener));
+		actionBar.addTab(actionBar.newTab().setText("latest")
+				.setTabListener(tabListener));
 	}
 
 	class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
@@ -117,7 +156,7 @@ public class MainActivity extends Activity {
 	public static File getDiskCacheDir(Context context, String uniqueName) {
 		final String cachePath = Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())
-				|| !Environment.isExternalStorageRemovable() ? context
+				|| !Storage.isExternalStorageRemovable() ? context
 				.getExternalCacheDir().getPath() : context.getCacheDir()
 				.getPath();
 

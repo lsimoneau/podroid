@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,6 +31,9 @@
         <activity android:name="com.podling.podroid.group.GroupActivity" >
         </activity>
         <activity android:name="com.podling.podroid.posts.PostsActivity" >
+               <intent-filter>
+            <action android:name="com.podling.podroid.REFRESH_POSTS"></action>
+        </intent-filter>
         </activity>
         <activity android:name="com.podling.podroid.users.UserActivity" >
         </activity>
